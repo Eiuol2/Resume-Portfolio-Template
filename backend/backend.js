@@ -36,6 +36,21 @@ const findText = (text) => {
     return uploaded_text['texts']; 
 }
 
+app.get('/resume/:id', (req, res) => {
+    const id = req.params['id'];
+    let result = findTextsById(id);
+    if (result === undefined || result.length == 0) 
+        res.status(404).send("ID of text not found");
+    else {
+        result = {texts: result};
+        res.send(result);
+    }
+})
+
+function findTextsById(id) {
+    return uploaded_text['texts'].find( (text) => text['id'] == id);
+}
+
 const uploaded_text = {
     texts: [
         {
