@@ -4,13 +4,11 @@ const port = 5016;
 const cors = require('cors');
 
 app.get('/', (req, res) => {
-	res.send('Default page');
+	res.send('Welcome Page');
 })
+
+
 
 app.listen(port, () => {
 	console.log(`Listening at http://localhost:${port}`);
 })
-
-
-
-
