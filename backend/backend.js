@@ -16,3 +16,13 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
 	console.log(`Listening at http://localhost:${port}`);
 })
+
+const uploaded_text = {
+    texts: [
+        {
+            id: "xyz123",
+            text: "First text",
+            user: "Group D"
+        }
+    ]
+}
