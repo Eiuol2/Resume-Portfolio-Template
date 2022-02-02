@@ -26,7 +26,7 @@ app.get('/resume', (req, res) => {
 });
 
 const findText = (text) => { 
-    return uploaded_text['texts'].filter( (uploaded_text) =>  uploaded_text['text'] === text); 
+    return uploaded_text['texts']; 
 }
 
 const uploaded_text = {
