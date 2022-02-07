@@ -17,9 +17,15 @@ app.listen(port, () => {
 
 app.get('/resume', (req, res) => {
     const text = req.query.text;
-    let result = findText(text);
-    result = {texts: result};
-    res.send(result);
+    if (text != undefined) {
+        let result = findText(text);
+        result = {texts: result};
+        res.send(result);
+    }
+    else {
+        res.send(uploaded_text);
+    }
+    
 });
 
 app.post('/resume', (req, res) => {
@@ -29,6 +35,7 @@ app.post('/resume', (req, res) => {
 })
 
 function addText(textToAdd) {
+    textToAdd['id'] = Math.floor((Math.random() * 100) + 1).toString();
     uploaded_text['texts'].push(textToAdd);
 }
 
@@ -49,6 +56,28 @@ app.get('/resume/:id', (req, res) => {
 
 function findTextsById(id) {
     return uploaded_text['texts'].find( (text) => text['id'] == id);
+}
+
+app.delete('/resume/:id', (req, res) => {
+    const id = req.params['id'];
+    let result = findTextsByIdRemove(id);
+    if (result === false) {
+        res.status(404).send("Resource not found.");
+    }
+    else {
+        result = {texts: result};
+        res.status(204).send(result);
+    }
+})
+
+function findTextsByIdRemove(id) {
+    for (i = 0; i < uploaded_text.texts.length; i++ ) {
+        if (uploaded_text['texts'][i].id === id) {
+            uploaded_text['texts'].splice(i, 1);
+            return true;
+        }
+    }
+    return false;
 }
 
 const uploaded_text = {
