@@ -42,7 +42,7 @@ function MyApp() {
     try {
       // await only works inside async functions
       const response = await axios.get("http://localhost:5016/resume")
-      return response.data.users_list
+      return response.data.texts
     } catch (error) {
       //We are not handling errors, just logging into the console
       console.log(error)
@@ -68,7 +68,7 @@ function MyApp() {
     fetchAll().then((result) => {
       if (result) setCharacters(result)
     })
-  }, [])
+  }, [characters])
 
   return (
     <div className="container">
