@@ -5,7 +5,7 @@ let dbConnection;
 
 function getDbConnection() {
     if (!dbConnection) {
-        dbConnection = mongoose.createConnection("mongodb://localhost:27017/users", {
+        dbConnection = mongoose.createConnection("mongodb://localhost:27017/uploaded_text", {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });
@@ -14,7 +14,7 @@ function getDbConnection() {
 }
 
 async function findTextsById(id){
-    const textModel = getDbConnection().model("texts", TextSchema);    
+    const textModel = getDbConnection().model("Text", TextSchema);    
     try{
         return await textModel.findById(id);
     }catch(error) {
@@ -23,8 +23,9 @@ async function findTextsById(id){
     }
 }
 
+//
 async function findTextsByIdRemove(id) {
-    const textModel = getDbConnection().model("texts", TextSchema);    
+    const textModel = getDbConnection().model("Text", TextSchema);    
     try{
         return await textModel.findByIdAndDelete(id);
     }catch(error) {
@@ -34,7 +35,7 @@ async function findTextsByIdRemove(id) {
 }
 
 async function findText (text) {
-    const textModel = getDbConnection().model("texts", TextSchema);    
+    const textModel = getDbConnection().model("Text", TextSchema);    
     let result;
     if(text === undefined){
         result = await textModel.find();
@@ -46,7 +47,7 @@ async function findText (text) {
 }
 
 async function addText(text){
-    const textModel = getDbConnection().model("texts", TextSchema);
+    const textModel = getDbConnection().model("Text", TextSchema);
     try{
         const textToAdd = new textModel(text);
         const savedText = await textToAdd.save()
@@ -58,8 +59,8 @@ async function addText(text){
 }
 
 async function findTextByName(name){
-    const textModel = getDbConnection().model("texts", TextSchema);
-    return await textModel.find({'text':name});
+    const textModel = getDbConnection().model("Text", TextSchema);
+    return await textModel.find({'text': name});
 }
 
 exports.findTextsById = findTextsById;

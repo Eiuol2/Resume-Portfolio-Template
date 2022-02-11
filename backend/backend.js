@@ -17,17 +17,29 @@ app.listen(port, () => {
 	console.log(`Listening at http://localhost:${port}`);
 })
 
-app.get('/resume', async (req, res) => {
-    const text = req.query.text;
-    if (text != undefined) {
-        const result = await userServices.findText(text);
-        result = {texts: result};
-        res.send(result);
-    }
-    else {
-        res.send(uploaded_text);
-    }
+// app.get('/resume', async (req, res) => {
+//     const text = req.query.text;
+//     if (text != undefined) {
+//         const result = await userServices.findText(text);
+//         result = {texts: result};
+//         res.send(result);
+//     }
+//     else {
+//        //
+//         res.send(uploaded_text);
+//     }
     
+// });
+
+app.get('/resume', async (req, res) => {
+    const text = req.query['text'];
+    try {
+        const result = await userServices.findText(text);
+        res.send({texts: result});         
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('An error ocurred in the server.');
+    }
 });
 
 app.post('/resume', async (req, res) => {
@@ -82,6 +94,7 @@ app.get('/resume/:id', async (req, res) => {
 //     return uploaded_text['texts'].find( (text) => text['id'] == id);
 // }
 
+//
 app.delete('/resume/:id', async (req, res) => {
     const id = req.params['id'];
     let result = userServices.findTextsByIdRemove(id);
