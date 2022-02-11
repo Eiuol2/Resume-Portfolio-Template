@@ -5,6 +5,8 @@ const cors = require('cors');
 
 app.use(cors());
 
+const userServices = require('./user-services');
+
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -15,10 +17,10 @@ app.listen(port, () => {
 	console.log(`Listening at http://localhost:${port}`);
 })
 
-app.get('/resume', (req, res) => {
+app.get('/resume', async (req, res) => {
     const text = req.query.text;
     if (text != undefined) {
-        let result = findText(text);
+        const result = await userServices.findText(text);
         result = {texts: result};
         res.send(result);
     }
@@ -28,40 +30,46 @@ app.get('/resume', (req, res) => {
     
 });
 
-app.post('/resume', (req, res) => {
+app.post('/resume', async (req, res) => {
     const textToAdd = req.body;
-    addText(textToAdd);
-    res.status(200).end()
+    const savedText = await userServices.addText(textToAdd);
+    if(savedText){
+        res.status(201).send(savedText);
+    }
+    else{
+        res.status(500).end;
+    }
 })
 
-function addText(textToAdd) {
-    uploaded_text['id'] = Math.floor((Math.random() * 100) + 1).toString();
-    uploaded_text['texts'].push(textToAdd);
-}
-app.get("/resume", (req, res) => {
-  const text = req.query.text
-  let result = findText(text)
-  result = { texts: result }
-  res.send(result)
-})
+// function addText(textToAdd) {
+//     uploaded_text['id'] = Math.floor((Math.random() * 100) + 1).toString();
+//     uploaded_text['texts'].push(textToAdd);
+// }
 
-app.post("/resume", (req, res) => {
-  const textToAdd = req.body
-  addText(textToAdd)
-  res.status(200).end()
-})
+// app.get("/resume", (req, res) => {
+//   const text = req.query.text
+//   let result = findText(text)
+//   result = { texts: result }
+//   res.send(result)
+// })
 
-function addText(textToAdd) {
-  uploaded_text["texts"].push(textToAdd)
-}
+// app.post("/resume", (req, res) => {
+//   const textToAdd = req.body
+//   addText(textToAdd)
+//   res.status(200).end()
+// })
 
-const findText = (text) => { 
-    return uploaded_text['texts']; 
-}
+// function addText(textToAdd) {
+//   uploaded_text["texts"].push(textToAdd)
+// }
 
-app.get('/resume/:id', (req, res) => {
+// const findText = (text) => { 
+//     return uploaded_text['texts']; 
+// }
+
+app.get('/resume/:id', async (req, res) => {
     const id = req.params['id'];
-    let result = findTextsById(id);
+    let result = await userServices.findTextsById(id);
     if (result === undefined || result.length == 0) 
         res.status(404).send("ID of text not found");
     else {
@@ -70,13 +78,13 @@ app.get('/resume/:id', (req, res) => {
     }
 })
 
-function findTextsById(id) {
-    return uploaded_text['texts'].find( (text) => text['id'] == id);
-}
+// function findTextsById(id) {
+//     return uploaded_text['texts'].find( (text) => text['id'] == id);
+// }
 
-app.delete('/resume/:id', (req, res) => {
+app.delete('/resume/:id', async (req, res) => {
     const id = req.params['id'];
-    let result = findTextsByIdRemove(id);
+    let result = userServices.findTextsByIdRemove(id);
     if (result === false) {
         res.status(404).send("Resource not found.");
     }
@@ -86,22 +94,22 @@ app.delete('/resume/:id', (req, res) => {
     }
 })
 
-function findTextsByIdRemove(id) {
-    for (i = 0; i < uploaded_text.texts.length; i++ ) {
-        if (uploaded_text['texts'][i].id === id) {
-            uploaded_text['texts'].splice(i, 1);
-            return true;
-        }
-    }
-    return false;
-}
+// function findTextsByIdRemove(id) {
+//     for (i = 0; i < uploaded_text.texts.length; i++ ) {
+//         if (uploaded_text['texts'][i].id === id) {
+//             uploaded_text['texts'].splice(i, 1);
+//             return true;
+//         }
+//     }
+//     return false;
+// }
 
-const uploaded_text = {
-    texts: [
-        {
-            id: "xyz123",
-            text: "First text",
-            user: "Group D"
-        }
-    ]
-}
+// const uploaded_text = {
+//     texts: [
+//         {
+//             id: "xyz123",
+//             text: "First text",
+//             user: "Group D"
+//         }
+//     ]
+// }
