@@ -3,6 +3,28 @@ const app = express();
 const port = 5016;
 const cors = require('cors');
 
+const ejs = require("ejs");
+const path = require("path");
+const fs = require("fs");
+const dirPath = path.join(__dirname, "public/pdfs");
+
+
+const files = fs.readdirSync(dirPath).map(name => {
+    return {
+      name: path.basename(name, ".pdf"),
+      url: `/pdfs/${name}`
+    };
+  });
+  
+  app.set("view engine", "ejs");
+  app.use(express.static("public"));
+  
+  app.get("/", (req, res) => {
+    res.render("index", { files });
+  });
+
+  
+
 app.use(cors());
 
 const userServices = require('./user-services');
@@ -12,6 +34,8 @@ app.use(express.json());
 app.get('/', (req, res) => {
 	res.send('Welcome Page');
 })
+
+app.set("view engine", "ejs");
 
 app.listen(port, () => {
 	console.log(`Listening at http://localhost:${port}`);
