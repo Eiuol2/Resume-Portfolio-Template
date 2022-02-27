@@ -6,6 +6,7 @@ function Form(props) {
     text: "",
   })
 
+
   function handleChange(event) {
     const { name, value } = event.target
     if (name === "text") setPerson({ user: person["user"], text: value })
@@ -19,6 +20,7 @@ function Form(props) {
 
   return (
     <form>
+      <embed src={"http://localhost:5016/pdfs/annotations.pdf"} type="application/pdf"></embed>
       <label htmlFor="user">User</label>
       <input
         type="text"

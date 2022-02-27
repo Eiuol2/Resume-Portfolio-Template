@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react"
 import Table from "./Table"
 import Form from "./Form"
 import axios from "axios"
+import { Routes, Route, Link } from "react-router-dom"
+import Home from "./Home"
+import Projects from "./Projects"
+import Resume from "./Resume"
+import Profile from "./Profile"
 
 function MyApp() {
   const [characters, setCharacters] = useState([])
@@ -71,7 +76,13 @@ function MyApp() {
   }, [characters])
 
   return (
-    <div className="container">
+    <div className="App">
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="profile" element={<Profile />} />
+        <Route path="projects" element={<Projects />} />
+        <Route path="resume" element={<Resume />} />
+      </Routes>
       <Table characterData={characters} removeCharacter={removeOneCharacter} />
       <Form handleSubmit={updateList} />
     </div>
