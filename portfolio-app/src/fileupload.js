@@ -40,6 +40,7 @@ function FileUpload() {
                 <button onClick={uploadFile} className="upbutton">upload</button>
             </div>
             <hr />
+            {console.log(data.path)}
             {/* <embed src={data.path} type="application/pdf" width="100%" height="500px"></embed> */}
             {flag && <iframe src={`${data.path}${"#toolbar=0"}`} width="100%" height="1000px"></iframe>}
             {/* {data.path && <div><textarea value={data.path} onChange={uploadFile} /></div>}
