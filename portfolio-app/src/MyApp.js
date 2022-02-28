@@ -9,6 +9,8 @@ import Resume from "./Resume"
 import Profile from "./Profile"
 import Navigation from "./Navigation"
 import "bootstrap/dist/css/bootstrap.min.css"
+import './pdf.css'
+import FileUpload from './fileupload'
 
 function MyApp() {
   const [characters, setCharacters] = useState([])
@@ -88,12 +90,15 @@ function MyApp() {
           <Route path="resume" element={<Resume />} />
         </Routes>
       </div>
-      <div className="table">
+      {/* <div className="table">
         <Table
           characterData={characters}
           removeCharacter={removeOneCharacter}
         />
         <Form handleSubmit={updateList} />
+      </div> */}
+      <div className="pdf">
+        <FileUpload />
       </div>
     </div>
   )
