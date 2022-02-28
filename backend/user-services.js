@@ -5,6 +5,11 @@ dotenv.config();
 
 let dbConnection;
 
+function setConnection(newConn){
+    dbConnection = newConn;
+    return dbConnection;
+}
+
 function getDbConnection() {
     if (!dbConnection) {
         dbConnection = mongoose.createConnection(process.env.MONGODB_URL, {
@@ -65,6 +70,8 @@ async function findTextByName(name){
     return await textModel.find({'text': name});
 }
 
+
+exports.setConnection = setConnection;
 exports.findTextsById = findTextsById;
 exports.findTextsByIdRemove = findTextsByIdRemove;
 exports.findText = findText;
