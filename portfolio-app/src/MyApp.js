@@ -7,6 +7,8 @@ import Home from "./Home"
 import Projects from "./Projects"
 import Resume from "./Resume"
 import Profile from "./Profile"
+import Navigation from "./Navigation"
+import "bootstrap/dist/css/bootstrap.min.css"
 
 function MyApp() {
   const [characters, setCharacters] = useState([])
@@ -77,14 +79,22 @@ function MyApp() {
 
   return (
     <div className="App">
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="profile" element={<Profile />} />
-        <Route path="projects" element={<Projects />} />
-        <Route path="resume" element={<Resume />} />
-      </Routes>
-      <Table characterData={characters} removeCharacter={removeOneCharacter} />
-      <Form handleSubmit={updateList} />
+      <div className="navbar">
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="projects" element={<Projects />} />
+          <Route path="resume" element={<Resume />} />
+        </Routes>
+      </div>
+      <div className="table">
+        <Table
+          characterData={characters}
+          removeCharacter={removeOneCharacter}
+        />
+        <Form handleSubmit={updateList} />
+      </div>
     </div>
   )
 }
