@@ -10,7 +10,7 @@ import Profile from "./Profile"
 import Navigation from "./Navigation"
 import "bootstrap/dist/css/bootstrap.min.css"
 import './pdf.css'
-import FileUpload from './fileupload'
+import FileUpload from "./fileupload"
 
 function MyApp() {
   const [characters, setCharacters] = useState([])
@@ -97,9 +97,6 @@ function MyApp() {
         />
         <Form handleSubmit={updateList} />
       </div> */}
-      <div className="pdf">
-        <FileUpload />
-      </div>
     </div>
   )
 }
