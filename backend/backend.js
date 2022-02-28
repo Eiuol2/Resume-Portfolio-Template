@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const port = 5016;
 const cors = require('cors');
+const fileUpload = require('express-fileupload');
 
 const ejs = require("ejs");
 const path = require("path");
@@ -24,8 +25,28 @@ const files = fs.readdirSync(dirPath).map(name => {
   });
 
   
-
+app.use(express.static('public'));
 app.use(cors());
+app.use(fileUpload());
+
+app.post('/upload', (req, res) => {
+
+    if (!req.files) {
+        return res.status(500).send({ msg: "file is not found" })
+    }
+
+    const myFile = req.files.file;
+
+    // Use the mv() method to place the file somewhere on your server
+    myFile.mv(`${__dirname}/public/${myFile.name}`, function (err) {
+        if (err) {
+            console.log(err)
+            return res.status(500).send({ msg: "error" });
+        }
+        return res.send({ file: myFile.name, path: `/${myFile.name}`, ty: myFile.type });
+    });
+})
+
 
 const userServices = require('./user-services');
 
