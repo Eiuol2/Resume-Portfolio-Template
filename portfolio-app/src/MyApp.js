@@ -13,6 +13,7 @@ import FileUpload from "./fileupload";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import store from "./store";
+import { Provider } from "react-redux";
 
 function MyApp() {
   const [characters, setCharacters] = useState([]);
