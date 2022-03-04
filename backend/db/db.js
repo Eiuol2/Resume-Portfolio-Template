@@ -17,3 +17,4 @@ let mong = mongoose.connect(url, {
         console.log('Error in DB connection: ' + err)
     }
 });
+
