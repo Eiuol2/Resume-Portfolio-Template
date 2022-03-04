@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react"
 import Table from "./Table"
-import Form from "./Form"
 import axios from "axios"
 import { Routes, Route, Link } from "react-router-dom"
-import Home from "./Home"
-import Projects from "./Projects"
-import Resume from "./Resume"
-import Profile from "./Profile"
-import Navigation from "./Navigation"
+import Home from "./components/Home"
+import Projects from "./components/Projects"
+import Resume from "./components/Resume"
+import Profile from "./components/Profile"
+import Navigation from "./components/Navigation"
 import "bootstrap/dist/css/bootstrap.min.css"
-import './pdf.css'
+import "./styles/pdf.css"
 import FileUpload from "./fileupload"
+import Register from "./components/Register"
+import Login from "./components/Login"
 
 function MyApp() {
   const [characters, setCharacters] = useState([])
@@ -88,6 +89,8 @@ function MyApp() {
           <Route path="profile" element={<Profile />} />
           <Route path="projects" element={<Projects />} />
           <Route path="resume" element={<Resume />} />
+          <Route path="register" element={<Register />} />
+          <Route path="login" element={<Login />} />
         </Routes>
       </div>
       {/* <div className="table">
