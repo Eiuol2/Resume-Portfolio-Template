@@ -9,13 +9,13 @@ module.exports = {
 
 mongoose.Promise = global.Promise;
 
-const url = process.env.MONGODB_URL;
+const url = process.env.MONGO_DB;
 
-let mong = mongoose.connect(url, {
+let mong = mongoose.connect(url, /*{
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
-}, (err) => {
+}, */ (err) => {
     if (!err) {
         console.log('MongoDB Connection Succeeded.')
     } else {
