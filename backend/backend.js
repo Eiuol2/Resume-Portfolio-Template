@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const port = 5016;
+<<<<<<< Updated upstream
 const cors = require("cors");
 const fileUpload = require("express-fileupload");
 const mongoose = require("mongoose");
@@ -9,6 +10,13 @@ const passport = require("passport");
 const config = require("./db");
 
 const users = require("./routes/user");
+=======
+const cors = require('cors');
+const fileUpload = require('express-fileupload');
+const mongoose = require("mongoose");
+const db = require("./db/db");
+const postRouter = require("./Routes/post");
+>>>>>>> Stashed changes
 
 const ejs = require("ejs");
 const path = require("path");
@@ -24,6 +32,7 @@ mongoose.connect(config.DB, { useNewUrlParser: true }).then(
   }
 );
 
+<<<<<<< Updated upstream
 app.use(passport.initialize());
 require("./passport")(passport);
 
@@ -47,8 +56,36 @@ app.get("/", (req, res) => {
 });
 
 app.use(express.static("public"));
+=======
+const files = fs.readdirSync(dirPath).map(name => {
+    return {
+      name: path.basename(name, ".pdf"),
+      url: `/pdfs/${name}`
+    };
+});
+  
+app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({
+   extended: false
+}));
+
+>>>>>>> Stashed changes
 app.use(cors());
-app.use(fileUpload());
+const PORT = process.env.PORT || 3000
+
+app.use("/api/posts", postRouter)
+
+app.listen(PORT, (req, res) => {
+    console.log(`app is listening to PORT ${PORT}`)
+})
+
+// app.set("view engine", "ejs");
+// app.use(express.static("public"));
+
+// app.get("/", (req, res) => {
+// res.render("index", { files });
+// });
 
 app.post("/upload", (req, res) => {
   if (!req.files) {
