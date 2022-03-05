@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import FileUpload from "../fileupload"
-import "../styles/pdf.css"
+import "../styling/pdf.css"
 
 class Resume extends Component {
   render() {
