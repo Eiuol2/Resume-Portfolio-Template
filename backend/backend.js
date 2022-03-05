@@ -1,20 +1,20 @@
 const express = require("express");
 const app = express();
 const port = 5016;
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const fileUpload = require('express-fileupload');
+const cors = require("cors");
+const fileUpload = require("express-fileupload");
 const mongoose = require("mongoose");
-const db = require("./db/db");
-const postRouter = require("./Routes/post");
-const router = new express.Router()
+const bodyParser = require("body-parser");
+const passport = require("passport");
+const config = require("./db/db");
 
+const users = require("./routes/user");
 
 const ejs = require("ejs");
 const path = require("path");
 const fs = require("fs");
 const dirPath = path.join(__dirname, "public/pdfs");
- /*
+
 mongoose.connect(config.DB, { useNewUrlParser: true }).then(
   () => {
     console.log("Database is connected");
@@ -23,33 +23,32 @@ mongoose.connect(config.DB, { useNewUrlParser: true }).then(
     console.log("Cannot connect to the database" + err);
   }
 );
-*/
-const files = fs.readdirSync(dirPath).map(name => {
-    return {
-      name: path.basename(name, ".pdf"),
-      url: `/pdfs/${name}`
-    };
-});
-  
+
+app.use(passport.initialize());
+require("./passport")(passport);
+
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use(bodyParser.urlencoded({
-   extended: false
-}));
+app.use("/api/users", users);
 
+const files = fs.readdirSync(dirPath).map((name) => {
+  return {
+    name: path.basename(name, ".pdf"),
+    url: `/pdfs/${name}`,
+  };
+});
+
+app.set("view engine", "ejs");
+app.use(express.static("public"));
+
+app.get("/", (req, res) => {
+  res.render("index", { files });
+});
+
+app.use(express.static("public"));
 app.use(cors());
-
-
-app.use("/api/posts", postRouter)
-
-
-
-// app.set("view engine", "ejs");
-// app.use(express.static("public"));
-
-// app.get("/", (req, res) => {
-// res.render("index", { files });
-// });
+app.use(fileUpload());
 
 app.post("/upload", (req, res) => {
   if (!req.files) {
@@ -82,7 +81,9 @@ app.get("/", (req, res) => {
 
 app.set("view engine", "ejs");
 
-
+app.listen(port, () => {
+  console.log(`Listening at http://localhost:${port}`);
+});
 
 // app.get('/resume', async (req, res) => {
 //     const text = req.query.text;
@@ -172,7 +173,6 @@ app.delete("/resume/:id", async (req, res) => {
   }
 });
 
-
 // function findTextsByIdRemove(id) {
 //     for (i = 0; i < uploaded_text.texts.length; i++ ) {
 //         if (uploaded_text['texts'][i].id === id) {
@@ -192,82 +192,3 @@ app.delete("/resume/:id", async (req, res) => {
 //         }
 //     ]
 // }
-
-
-router.post("",(req, res, next) => {
-  const post = new Post({
-      title: req.body.title,
-      content: req.body.content,
-  })
-  post.save().
-      then(post => {
-          if(post){
-              res.status(201).json({
-                  message: "Post added successfully",
-                  post: {
-                      ...post,
-                      id: post._id
-                  }
-              })
-          }
-  }).catch(e => {
-          console.log(e)
-      })
-})
-
-// READ OPERATION
-router.get("/mypost", (req, res, next) => {
-Post.find({creator: req.userData.userId}).then(post => {
-if (post) {
-  res.status(200).json({
-      message: "Posts fetched successfully!",
-      posts: post
-  });
-}
-}).catch(e=>{
-  console.log(e)
-});
-});
-
-//UPDATE OPERATION
-router.put(
-"/:id",
-(req, res, next) => {
-  const post = new Post({
-      _id: req.body.id,
-      title: req.body.title,
-      content: req.body.content,
-   
-  });
-  Post.updateOne(
-      { _id: req.params.id},
-      post
-    ).then(result => {
-      if(result){
-          res.status(200).json({ message: "Update successful!" });
-      }       
-      else {
-          res.status(500).json({ message: "Error Upating Post" });
-      }
-  });
-}
-);
-
-
-//DELETE OPERATION
-router.delete("/:id", (req, res, next) => {
-Post.deleteOne({ _id: req.params.id, creator: req.userData.userId }).then(
-result => {
-  console.log(result);
-  if (result.n > 0) {
-    res.status(200).json({ message: "Deletion successful!" });
-  } else {
-      return res.status(401).json({ message: "Not authorized!!" });
-  }
-}
-);
-});
-
-
-
-
