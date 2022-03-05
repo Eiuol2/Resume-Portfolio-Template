@@ -82,10 +82,17 @@ function MyApp() {
     });
   }, [characters]);
 
+  const navbarStyle = {
+    navStyle: {
+      display: "flex",
+      alignItems: "center",
+      padding: 20,
+    }
+  }
+
   return (
     <div className="App">
       <Provider store={store}>
-        <div className="navbar">
           <Navigation />
           <Routes>
             <Route path="/" element={<Home />} />
@@ -95,7 +102,6 @@ function MyApp() {
             <Route path="register" element={<Register />} />
             <Route path="login" element={<Login />} />
           </Routes>
-        </div>
       </Provider>
       {/* <div className="table">
         <Table

@@ -33,12 +33,11 @@ function FileUpload() {
 
     return (
         <div>
-            <div className="file-upload">
+            {!flag && <div className="file-upload">
                 <input type="file" ref={el} onChange={handleChange} />
                 
-                {/* <div className="progessBar" style={{ width: progress }}>{progress}</div> */}
                 <button onClick={uploadFile} className="upbutton">upload</button>
-            </div>
+            </div>}
             {/* <embed src={data.path} type="application/pdf" width="100%" height="500px"></embed> */}
             {flag && <iframe src={`${data.path}${"#toolbar=0"}`} width="100%" height="1000px"></iframe>}
             {/* {data.path && <div><textarea value={data.path} onChange={uploadFile} /></div>}
