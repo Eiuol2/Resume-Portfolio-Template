@@ -93,15 +93,15 @@ function MyApp() {
   return (
     <div className="App">
       <Provider store={store}>
-          <Navigation />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="projects" element={<Projects />} />
-            <Route path="resume" element={<Resume />} />
-            <Route path="register" element={<Register />} />
-            <Route path="login" element={<Login />} />
-          </Routes>
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="profile" element={<Profile />} />
+          <Route path="projects" element={<Projects />} />
+          <Route path="resume" element={<Resume />} />
+          <Route path="register" element={<Register />} />
+          <Route path="login" element={<Login />} />
+        </Routes>
       </Provider>
       {/* <div className="table">
         <Table
