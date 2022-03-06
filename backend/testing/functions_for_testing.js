@@ -16,6 +16,7 @@ function setConnection(newConn) {
 
 function getDbConnectionPost() {
   if (!dbConnectionPost) {
+    //only works rn w JWT
     dbConnectionPost = mongoose.createConnection(config.JWT_DB, {
       useNewUrlParser: true,
       useUnifiedTopology: true,

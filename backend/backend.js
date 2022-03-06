@@ -17,6 +17,7 @@ const fs = require("fs")
 const dirPath = path.join(__dirname, "public/pdfs")
 
 mongoose
+  //only works for JWT_DB rn
   .connect(config.JWT_DB, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(
     () => {
