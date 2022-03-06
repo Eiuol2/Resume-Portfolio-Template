@@ -1,29 +1,41 @@
+//
+
 const mongoose = require("mongoose")
-const TextSchema = require("./text")
+const TextSchema = require("../text")
 const dotenv = require("dotenv")
 dotenv.config()
 
-const config = require("./db/db")
+const config = require("../db/db")
 
-let dbConnection
+let dbConnectionPost, dbConnectionAuth
 
 function setConnection(newConn) {
   dbConnection = newConn
   return dbConnection
 }
 
-function getDbConnection() {
-  if (!dbConnection) {
-    dbConnection = mongoose.createConnection(config.post_DB, {
+function getDbConnectionPost() {
+  if (!dbConnectionPost) {
+    dbConnectionPost = mongoose.createConnection(config.JWT_DB, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
   }
-  return dbConnection
+  return dbConnectionPost
+}
+
+function getDbConnectionAuth() {
+  if (!dbConnectionAuth) {
+    dbConnectionAuth = mongoose.createConnection(config.JWT_DB, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
+  }
+  return dbConnectionAuth
 }
 
 async function findTextsById(id) {
-  const textModel = getDbConnection().model("Text", TextSchema)
+  const textModel = getDbConnectionPost().model("Text", TextSchema)
   try {
     return await textModel.findById(id)
   } catch (error) {
@@ -34,7 +46,7 @@ async function findTextsById(id) {
 
 //
 async function findTextsByIdRemove(id) {
-  const textModel = getDbConnection().model("Text", TextSchema)
+  const textModel = getDbConnectionPost().model("Text", TextSchema)
   try {
     return await textModel.findByIdAndDelete(id)
   } catch (error) {
@@ -44,7 +56,7 @@ async function findTextsByIdRemove(id) {
 }
 
 async function findText(text) {
-  const textModel = getDbConnection().model("Text", TextSchema)
+  const textModel = getDbConnectionPost().model("Text", TextSchema)
   let result
   if (text === undefined) {
     result = await textModel.find()
@@ -55,7 +67,7 @@ async function findText(text) {
 }
 
 async function addText(text) {
-  const textModel = getDbConnection().model("Text", TextSchema)
+  const textModel = getDbConnectionPost().model("Text", TextSchema)
   try {
     const textToAdd = new textModel(text)
     const savedText = await textToAdd.save()
@@ -67,7 +79,7 @@ async function addText(text) {
 }
 
 async function findTextByName(name) {
-  const textModel = getDbConnection().model("Text", TextSchema)
+  const textModel = getDbConnectionPost().model("Text", TextSchema)
   return await textModel.find({ text: name })
 }
 

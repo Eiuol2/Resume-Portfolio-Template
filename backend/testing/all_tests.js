@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
-const TextSchema = require("./text")
-const userServices = require("./user-services")
+const TextSchema = require("../text")
+const userServices = require("./functions_for_testing")
 const { MongoMemoryServer } = require("mongodb-memory-server")
 require("dotenv").config()
 

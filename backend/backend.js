@@ -27,6 +27,17 @@ mongoose
     }
   )
 
+// mongoose
+//   .connect(config.post_DB, { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then(
+//     () => {
+//       console.log("Database is connected")
+//     },
+//     (err) => {
+//       console.log("Cannot connect to the database" + err)
+//     }
+//   )
+
 app.use(passport.initialize())
 require("./passport")(passport)
 
@@ -74,7 +85,7 @@ app.post("/upload", (req, res) => {
   })
 })
 
-const userServices = require("./user-services")
+const userServices = require("./testing/functions_for_testing")
 
 app.use(express.json())
 
