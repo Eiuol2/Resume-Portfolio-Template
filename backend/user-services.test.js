@@ -1,86 +1,87 @@
-const mongoose = require("mongoose");
-const TextSchema = require("./text");
-const userServices = require("./user-services");
-const { MongoMemoryServer } = require("mongodb-memory-server");
+const mongoose = require("mongoose")
+const TextSchema = require("./text")
+const userServices = require("./user-services")
+const { MongoMemoryServer } = require("mongodb-memory-server")
+require("dotenv").config()
 
-let mongoServer;
-let conn;
-let textModel;
+let mongoServer
+let conn
+let textModel
 
 beforeAll(async () => {
-  mongoServer = await MongoMemoryServer.create();
-  const uri = mongoServer.getUri();
+  mongoServer = await MongoMemoryServer.create()
+  const uri = mongoServer.getUri()
 
   const mongooseOpts = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  };
+  }
 
-  conn = await mongoose.createConnection(uri, mongooseOpts);
+  conn = await mongoose.createConnection(uri, mongooseOpts)
 
-  textModel = conn.model("Texts", TextSchema);
+  textModel = conn.model("Texts", TextSchema)
 
-  userServices.setConnection(conn);
-});
+  userServices.setConnection(conn)
+})
 
 afterAll(async () => {
-  await conn.dropDatabase();
-  await conn.close();
-  await mongoServer.stop();
-});
+  await conn.dropDatabase()
+  await conn.close()
+  await mongoServer.stop()
+})
 
 beforeEach(async () => {
   let dummyText = {
     text: "College: Cal Poly SLO",
     user: "Chuck",
-  };
-  let result = new textModel(dummyText);
-  await result.save();
+  }
+  let result = new textModel(dummyText)
+  await result.save()
 
   dummyText = {
     text: "GPA: 4.0",
     user: "Steve",
-  };
-  result = new textModel(dummyText);
-  await result.save();
+  }
+  result = new textModel(dummyText)
+  await result.save()
 
   dummyText = {
     text: "Project Experience: Built a website using Node and React",
     user: "Tony",
-  };
-  result = new textModel(dummyText);
-  await result.save();
+  }
+  result = new textModel(dummyText)
+  await result.save()
 
   dummyText = {
     text: "Degree: Bachelor's of Science in Software Engineering",
     user: "Stacy",
-  };
-  result = new textModel(dummyText);
-  await result.save();
-});
+  }
+  result = new textModel(dummyText)
+  await result.save()
+})
 
 afterEach(async () => {
-  await textModel.deleteMany();
-});
+  await textModel.deleteMany()
+})
 
 test("Fetching text - Valid", async () => {
-  const userText = "GPA: 4.0";
-  const texts = await userServices.findText(userText);
-  expect(texts).toBeDefined();
-  expect(texts.length).toBeGreaterThan(0);
-  texts.forEach((text) => expect(text.text).toBe(userText));
-});
+  const userText = "GPA: 4.0"
+  const texts = await userServices.findText(userText)
+  expect(texts).toBeDefined()
+  expect(texts.length).toBeGreaterThan(0)
+  texts.forEach((text) => expect(text.text).toBe(userText))
+})
 
 test("Adding Text - successful path", async () => {
   const dummyText = {
     text: "School - Hogwarts",
     user: "Harry Potter",
-  };
-  const result = await userServices.addText(dummyText);
-  expect(result).toBeTruthy();
-  expect(result.text).toBe(dummyText.text);
-  expect(result.user).toBe(dummyText.user);
-});
+  }
+  const result = await userServices.addText(dummyText)
+  expect(result).toBeTruthy()
+  expect(result.text).toBe(dummyText.text)
+  expect(result.user).toBe(dummyText.user)
+})
 
 // test("Adding user -- failure path with invalid id", async () => {
 //   const dummyUser = {
@@ -134,7 +135,6 @@ test("Adding Text - successful path", async () => {
 //   const deleteResult = await userModel.findOneAndDelete({ _id: anyId });
 //   expect(deleteResult).toBeNull();
 // });
-
 
 // test("Adding user -- failure path with already taken id", async () => {
 //   const dummyUser = {

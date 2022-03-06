@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-dotenv.config();
-
+const mongoose = require("mongoose")
+const dotenv = require("dotenv")
+dotenv.config()
 
 module.exports = {
-    DB: process.env.JWT_DB,
-  };
+  JWT_DB: process.env.JWT_DB,
+  post_DB: process.env.MONGO_DB,
+} /* (err) => {
 
-  /*
+/*
 
 mongoose.Promise = global.Promise;
 
@@ -17,12 +17,9 @@ let mong = mongoose.connect(url, /*{
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
-}, */ /* (err) => {
-    if (!err) {
-        console.log('MongoDB Connection Succeeded.')
-    } else {
-        console.log('Error in DB connection: ' + err)
-    }
-});
-
-*/
+}, */
+// if (!err) {
+//   console.log("MongoDB Connection Succeeded.")
+// } else {
+//   console.log("Error in DB connection: " + err)
+// }
