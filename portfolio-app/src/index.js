@@ -3,6 +3,7 @@ import ReactDOM from "react-dom"
 import MyApp from "./MyApp"
 import "./index.css"
 import { BrowserRouter } from "react-router-dom"
+import axios from 'axios';
 
 
 
@@ -27,6 +28,8 @@ axios.interceptors.response.use(response => {
   console.log(error.response);
   return Promise.reject(error);
 });
+
+
 
 
 ReactDOM.render(
