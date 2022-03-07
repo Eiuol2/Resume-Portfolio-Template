@@ -19,6 +19,7 @@ const fs = require("fs");
 const dirPath = path.join(__dirname, "public/pdfs");
 
 mongoose
+  //only works for JWT_DB rn
   .connect(config.JWT_DB, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(
     () => {
@@ -29,15 +30,19 @@ mongoose
     }
   )
 
-// const jwtDB = mongoose.createConnection(config.JWT_DB, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
-//const pdfDB = mongoose.createConnection(config.post_DB);
-//const model2 = pdfDB.model("Text", TextSchema);
+// mongoose
+//   .connect(config.post_DB, { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then(
+//     () => {
+//       console.log("Database is connected")
+//     },
+//     (err) => {
+//       console.log("Cannot connect to the database" + err)
+//     }
+//   )
 
-app.use(passport.initialize());
-require("./passport")(passport);
+app.use(passport.initialize())
+require("./passport")(passport)
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -83,8 +88,7 @@ app.post("/upload", (req, res) => {
   });
 });
 
-//const userServices = require("./user-services");
-//userServices.setConnection(pdfDB);
+const userServices = require("./testing/functions_for_testing")
 
 app.use(express.json());
 

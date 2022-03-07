@@ -2,16 +2,16 @@ import React, { useState, useEffect } from "react"
 import Table from "./Table"
 import axios from "axios"
 import { Routes, Route, Link } from "react-router-dom"
-import Home from "./components/Home"
-import Projects from "./components/Projects"
-import Resume from "./components/Resume"
-import Profile from "./components/Profile"
-import Navigation from "./components/Navigation"
+import Home from "./pages/Home"
+import Projects from "./pages/Projects"
+import Resume from "./pages/Resume"
+import Profile from "./pages/Profile"
+import Navigation from "./pages/Navigation"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "./styling/pdf.css"
 import FileUpload from "./fileupload"
-import Register from "./components/Register"
-import Login from "./components/Login"
+import Register from "./pages/Register"
+import Login from "./pages/Login"
 import store from "./store"
 import { Provider } from "react-redux"
 
@@ -87,7 +87,7 @@ function MyApp() {
       display: "flex",
       alignItems: "center",
       padding: 20,
-    }
+    },
   }
 
   return (
