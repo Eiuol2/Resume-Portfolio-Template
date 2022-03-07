@@ -10,8 +10,8 @@ const config = require("../db/db")
 let dbConnectionPost, dbConnectionAuth
 
 function setConnection(newConn) {
-  dbConnection = newConn
-  return dbConnection
+  dbConnection = newConn;
+  return dbConnection;
 }
 
 function getDbConnectionPost() {
@@ -38,10 +38,10 @@ function getDbConnectionAuth() {
 async function findTextsById(id) {
   const textModel = getDbConnectionPost().model("Text", TextSchema)
   try {
-    return await textModel.findById(id)
+    return await textModel.findById(id);
   } catch (error) {
-    console.log(error)
-    return undefined
+    console.log(error);
+    return undefined;
   }
 }
 
@@ -49,10 +49,10 @@ async function findTextsById(id) {
 async function findTextsByIdRemove(id) {
   const textModel = getDbConnectionPost().model("Text", TextSchema)
   try {
-    return await textModel.findByIdAndDelete(id)
+    return await textModel.findByIdAndDelete(id);
   } catch (error) {
-    console.log(error)
-    return undefined
+    console.log(error);
+    return undefined;
   }
 }
 
@@ -60,22 +60,22 @@ async function findText(text) {
   const textModel = getDbConnectionPost().model("Text", TextSchema)
   let result
   if (text === undefined) {
-    result = await textModel.find()
+    result = await textModel.find();
   } else {
-    result = await findTextByName(text)
+    result = await findTextByName(text);
   }
-  return result
+  return result;
 }
 
 async function addText(text) {
   const textModel = getDbConnectionPost().model("Text", TextSchema)
   try {
-    const textToAdd = new textModel(text)
-    const savedText = await textToAdd.save()
-    return savedText
+    const textToAdd = new textModel(text);
+    const savedText = await textToAdd.save();
+    return savedText;
   } catch (error) {
-    console.log(error)
-    return false
+    console.log(error);
+    return false;
   }
 }
 
@@ -84,8 +84,8 @@ async function findTextByName(name) {
   return await textModel.find({ text: name })
 }
 
-exports.setConnection = setConnection
-exports.findTextsById = findTextsById
-exports.findTextsByIdRemove = findTextsByIdRemove
-exports.findText = findText
-exports.addText = addText
+exports.setConnection = setConnection;
+exports.findTextsById = findTextsById;
+exports.findTextsByIdRemove = findTextsByIdRemove;
+exports.findText = findText;
+exports.addText = addText;
