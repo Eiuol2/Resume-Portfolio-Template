@@ -14,6 +14,7 @@ import Register from "./pages/Register"
 import Login from "./pages/Login"
 import store from "./store"
 import { Provider } from "react-redux"
+import Form from './Form'
 
 function MyApp() {
   const [characters, setCharacters] = useState([])
@@ -103,13 +104,13 @@ function MyApp() {
           <Route path="login" element={<Login />} />
         </Routes>
       </Provider>
-      {/* <div className="table">
+      <div className="table">
         <Table
           characterData={characters}
           removeCharacter={removeOneCharacter}
         />
         <Form handleSubmit={updateList} />
-      </div> */}
+      </div>
     </div>
   )
 }
