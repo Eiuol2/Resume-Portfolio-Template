@@ -38,6 +38,13 @@ function MyApp() {
                     Posts List
                   </Link>
                 </Nav>
+                <Nav>
+                  <Link to={"/resume"} className="nav-link">
+                    Resume
+                  </Link>
+                </Nav>
+
+
               </Nav>
             </Container>
           </Navbar>
@@ -66,6 +73,11 @@ function MyApp() {
                     exact
                     path="/posts-list"
                     component={(props) => <PostsList {...props} />}
+                  />
+                  <Route
+                    exact
+                    path="/resume"
+                    component={(props) => <Resume {...props} />}
                   />
                 </Switch>
               </div>
