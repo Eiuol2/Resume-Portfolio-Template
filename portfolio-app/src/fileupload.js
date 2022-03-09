@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
+
+
+
 function FileUpload() {
     const [flag, setFlag] = useState(false);
     const [file, setFile] = useState('');
@@ -31,6 +34,7 @@ function FileUpload() {
         setFlag(true);
     }
 
+
     return (
         <div>
             <div className="file-upload">
@@ -46,5 +50,7 @@ function FileUpload() {
         </div>
     );
 }
+
+
 
 export default FileUpload;
