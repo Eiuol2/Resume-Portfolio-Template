@@ -5,7 +5,7 @@ let mongoose = require("mongoose"),
 let resumeSchema = require("../Models/Resume")
 
 // create post
-router.route("/create-resume").post((req, res, next) => {
+router.route("/upload-resume").post((req, res, next) => {
   resumeSchema.create(req.body, (error, data) => {
     if (error) {
       return next(error)
