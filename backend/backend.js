@@ -1,66 +1,95 @@
-const express = require('express');
+const express = require("express");
 const app = express();
 const port = 5016;
-const cors = require('cors');
-const fileUpload = require('express-fileupload');
+const cors = require("cors");
+const fileUpload = require("express-fileupload");
 
 const ejs = require("ejs");
 const path = require("path");
 const fs = require("fs");
 const dirPath = path.join(__dirname, "public/pdfs");
 
+const mongoose = require("mongoose");
 
-const files = fs.readdirSync(dirPath).map(name => {
-    return {
-      name: path.basename(name, ".pdf"),
-      url: `/pdfs/${name}`
-    };
-  });
-  
-  app.set("view engine", "ejs");
-  app.use(express.static("public"));
-  
-  app.get("/", (req, res) => {
-    res.render("index", { files });
-  });
+const bodyParser = require("body-parser");
+const dbConfig = require("./db/db");
+const postRoute = require("../backend/routes/post.routes");
 
-  
-app.use(express.static('public'));
+mongoose.Promise = global.Promise;
+
+mongoose
+  .connect(dbConfig.db, {
+    useNewUrlParser: true,
+  })
+  .then(() => {
+    console.log("DB connected");
+  }),
+  (error) => {
+    console.log("Could not connect: " + error);
+  };
+
+app.use(bodyParser.json());
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
+app.use(cors());
+app.use("/posts", postRoute);
+
+const files = fs.readdirSync(dirPath).map((name) => {
+  return {
+    name: path.basename(name, ".pdf"),
+    url: `/pdfs/${name}`,
+  };
+});
+
+app.set("view engine", "ejs");
+app.use(express.static("public"));
+
+app.get("/", (req, res) => {
+  res.render("index", { files });
+});
+
+app.use(express.static("public"));
 app.use(cors());
 app.use(fileUpload());
 
-app.post('/upload', (req, res) => {
+app.post("/upload", (req, res) => {
+  if (!req.files) {
+    return res.status(500).send({ msg: "file is not found" });
+  }
 
-    if (!req.files) {
-        return res.status(500).send({ msg: "file is not found" })
+  const myFile = req.files.file;
+
+  // Use the mv() method to place the file somewhere on your server
+  myFile.mv(`${__dirname}/public/${myFile.name}`, function (err) {
+    if (err) {
+      console.log(err);
+      return res.status(500).send({ msg: "error" });
     }
-
-    const myFile = req.files.file;
-
-    // Use the mv() method to place the file somewhere on your server
-    myFile.mv(`${__dirname}/public/${myFile.name}`, function (err) {
-        if (err) {
-            console.log(err)
-            return res.status(500).send({ msg: "error" });
-        }
-        return res.send({ file: myFile.name, path: `/${myFile.name}`, ty: myFile.type });
+    return res.send({
+      file: myFile.name,
+      path: `/${myFile.name}`,
+      ty: myFile.type,
     });
-})
+  });
+});
 
-
-const userServices = require('./user-services');
+const userServices = require("./user-services");
+//const { default: mongoose } = require("mongoose");
 
 app.use(express.json());
 
-app.get('/', (req, res) => {
-	res.send('Welcome Page');
-})
+app.get("/", (req, res) => {
+  res.send("Welcome Page");
+});
 
 app.set("view engine", "ejs");
 
 app.listen(port, () => {
-	console.log(`Listening at http://localhost:${port}`);
-})
+  console.log(`Listening at http://localhost:${port}`);
+});
 
 // app.get('/resume', async (req, res) => {
 //     const text = req.query.text;
@@ -73,30 +102,29 @@ app.listen(port, () => {
 //        //
 //         res.send(uploaded_text);
 //     }
-    
+
 // });
 
-app.get('/resume', async (req, res) => {
-    const text = req.query['text'];
-    try {
-        const result = await userServices.findText(text);
-        res.send({texts: result});         
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('An error ocurred in the server.');
-    }
+app.get("/resume", async (req, res) => {
+  const text = req.query["text"];
+  try {
+    const result = await userServices.findText(text);
+    res.send({ texts: result });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("An error ocurred in the server.");
+  }
 });
 
-app.post('/resume', async (req, res) => {
-    const textToAdd = req.body;
-    const savedText = await userServices.addText(textToAdd);
-    if(savedText){
-        res.status(201).send(savedText);
-    }
-    else{
-        res.status(500).end;
-    }
-})
+app.post("/resume", async (req, res) => {
+  const textToAdd = req.body;
+  const savedText = await userServices.addText(textToAdd);
+  if (savedText) {
+    res.status(201).send(savedText);
+  } else {
+    res.status(500).end;
+  }
+});
 
 // function addText(textToAdd) {
 //     uploaded_text['id'] = Math.floor((Math.random() * 100) + 1).toString();
@@ -120,37 +148,36 @@ app.post('/resume', async (req, res) => {
 //   uploaded_text["texts"].push(textToAdd)
 // }
 
-// const findText = (text) => { 
-//     return uploaded_text['texts']; 
+// const findText = (text) => {
+//     return uploaded_text['texts'];
 // }
 
-app.get('/resume/:id', async (req, res) => {
-    const id = req.params['id'];
-    let result = await userServices.findTextsById(id);
-    if (result === undefined || result.length == 0) 
-        res.status(404).send("ID of text not found");
-    else {
-        result = {texts: result};
-        res.send(result);
-    }
-})
+app.get("/resume/:id", async (req, res) => {
+  const id = req.params["id"];
+  let result = await userServices.findTextsById(id);
+  if (result === undefined || result.length == 0)
+    res.status(404).send("ID of text not found");
+  else {
+    result = { texts: result };
+    res.send(result);
+  }
+});
 
 // function findTextsById(id) {
 //     return uploaded_text['texts'].find( (text) => text['id'] == id);
 // }
 
 //
-app.delete('/resume/:id', async (req, res) => {
-    const id = req.params['id'];
-    let result = userServices.findTextsByIdRemove(id);
-    if (result === false) {
-        res.status(404).send("Resource not found.");
-    }
-    else {
-        result = {texts: result};
-        res.status(204).send(result);
-    }
-})
+app.delete("/resume/:id", async (req, res) => {
+  const id = req.params["id"];
+  let result = userServices.findTextsByIdRemove(id);
+  if (result === false) {
+    res.status(404).send("Resource not found.");
+  } else {
+    result = { texts: result };
+    res.status(204).send(result);
+  }
+});
 
 // function findTextsByIdRemove(id) {
 //     for (i = 0; i < uploaded_text.texts.length; i++ ) {
