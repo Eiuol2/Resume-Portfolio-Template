@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 let resumeSchema = new Schema({
     id: { //user ID
-        type: int,
+        type: String,
         required: true
     },
     content: { //id link to PDF
