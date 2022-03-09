@@ -9,6 +9,8 @@ dotenv.config()
 // Express Route
 const postRoute = require("../backend/routes/post.route")
 
+//make another route for resume
+
 // Connecting mongoDB Database
 mongoose.Promise = global.Promise
 mongoose
@@ -32,6 +34,7 @@ app.use(
 )
 app.use(cors())
 app.use("/posts", postRoute)
+//include resume here
 
 // PORT
 const port = 5016
