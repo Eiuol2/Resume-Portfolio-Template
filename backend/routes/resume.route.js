@@ -2,11 +2,11 @@ let mongoose = require("mongoose"),
   express = require("express"),
   router = express.Router()
 
-let postSchema = require("../Models/Post")
+let resumeSchema = require("../Models/Resume")
 
 // create post
-router.route("/create-post").post((req, res, next) => {
-  postSchema.create(req.body, (error, data) => {
+router.route("/create-resume").post((req, res, next) => {
+  resumeSchema.create(req.body, (error, data) => {
     if (error) {
       return next(error)
     } else {
@@ -18,7 +18,7 @@ router.route("/create-post").post((req, res, next) => {
 
 //read posts
 router.route("/").get((req, res) => {
-  postSchema.find((error, data) => {
+  resumeSchema.find((error, data) => {
     if (error) {
       return next(error)
     } else {
@@ -28,8 +28,8 @@ router.route("/").get((req, res) => {
 })
 
 // get single post
-router.route("/edit-post/:id").get((req, res) => {
-  postSchema.findById(req.params.id, (error, data) => {
+router.route("/edit-resume/:id").get((req, res) => {
+  resumeSchema.findById(req.params.id, (error, data) => {
     if (error) {
       return next(error)
     } else {
@@ -40,8 +40,8 @@ router.route("/edit-post/:id").get((req, res) => {
 
 
 //delete post
-router.route("/delete-post/:id").delete((req, res, next) => {
-  postSchema.findByIdAndRemove(req.params.id, (error, data) => {
+router.route("/delete-resume/:id").delete((req, res, next) => {
+  resumeSchema.findByIdAndRemove(req.params.id, (error, data) => {
     if (error) {
       return next(error)
     } else {
