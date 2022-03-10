@@ -1,7 +1,9 @@
 import React, { Component } from "react"
 import axios from "axios"
-import { Card } from "react-bootstrap"
+import { Button, Card } from "react-bootstrap"
 import "../styling/box.css"
+import { Link } from "react-router-dom"
+import CardHeader from "react-bootstrap/esm/CardHeader"
 
 class PostsList extends Component {
   constructor(props) {
@@ -9,6 +11,7 @@ class PostsList extends Component {
     this.state = {
       posts: [],
     }
+    this.deletePost = this.deletePost.bind(this)
   }
   componentDidMount() {
     axios
@@ -17,6 +20,19 @@ class PostsList extends Component {
         this.setState({
           posts: res.data,
         })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
+  deletePost() {
+    // error rn: don't know how to get the right id for the post??
+    console.log("id is: " + this.props._id)
+    axios
+      .delete("http://localhost:5016/posts/delete-post/" + this.props._id)
+      .then((res) => {
+        console.log("Post successfully deleted!")
       })
       .catch((error) => {
         console.log(error)
@@ -32,6 +48,14 @@ class PostsList extends Component {
             <Card.Title>{res.title}</Card.Title>
             <Card.Text>{res.description}</Card.Text>
           </Card.Body>
+          <Card.Footer className="text-muted">
+            <Link className="edit-link" to={"/edit-post/" + res._id}>
+              Edit
+            </Link>
+            <Button onClick={this.deletePost} size="sm" variant="danger">
+              Delete
+            </Button>
+          </Card.Footer>
         </Card>
       )
     }
