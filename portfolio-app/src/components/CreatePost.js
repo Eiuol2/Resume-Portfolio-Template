@@ -1,6 +1,17 @@
 import axios from "axios"
 import React, { Component } from "react"
 import { Form, Button } from "react-bootstrap"
+import { Link } from "react-router-dom"
+
+const creatPostbutton = <Button
+                          variant="danger"
+                          size="lg"
+                          block="block"
+                          type="submit"
+                          className="mt-4"
+                        >
+                        Create Post                        </Button>
+
 class CreatePost extends Component {
   constructor(props) {
     super(props)
@@ -70,7 +81,12 @@ class CreatePost extends Component {
               onChange={this.onChangeContent}
             />
           </Form.Group>
-          <Button
+
+          <Link to="/create-post">
+            {creatPostbutton}
+          </Link>
+         
+          {/* <Button
             variant="danger"
             size="lg"
             block="block"
@@ -78,7 +94,7 @@ class CreatePost extends Component {
             className="mt-4"
           >
             Create Post
-          </Button>
+          </Button> */}
         </Form>
       </div>
     )
