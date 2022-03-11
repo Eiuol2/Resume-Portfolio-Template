@@ -1,9 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
-
-
-
 function FileUpload() {
     const [flag, setFlag] = useState(false);
     const [file, setFile] = useState('');
@@ -20,15 +17,12 @@ function FileUpload() {
 
     const uploadFile = () => {
         const formData = new FormData();
+        formData.append('content', data.path);
         formData.append('file', file)
-        axios.post('http://localhost:5016/upload', formData, {
-            onUploadProgress: (ProgressEvent) => {
-                let progress = Math.round(ProgressEvent.loaded / ProgressEvent.total * 100) + '%';
-                setProgess(progress)
-            }
-        }).then(res => {
+        axios.post('http://localhost:5016/resume/upload', formData)
+        .then(res => {
             console.log(res);
-            getFile({ name: res.data.name, path: 'http://localhost:5016' + res.data.path })
+            getFile({ name: res.data.name, path: 'http://localhost:5016/resume' + res.data.path })
             // el.current.value = "";
         }).catch(err => console.log(err))
         setFlag(true);
