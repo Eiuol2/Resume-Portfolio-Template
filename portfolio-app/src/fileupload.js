@@ -1,56 +1,103 @@
-import React, { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
-
-
-
+import React, { useEffect, useRef, useState } from "react"
+import axios from "axios"
+import { Viewer } from "@react-pdf-viewer/core" // install this library
+// Plugins
+import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout" // install this library
+// Import the styles
+import "@react-pdf-viewer/core/lib/styles/index.css"
+import "@react-pdf-viewer/default-layout/lib/styles/index.css"
+// Worker
+import { Worker } from "@react-pdf-viewer/core" // install this library
 
 function FileUpload() {
-    const [flag, setFlag] = useState(false);
-    const [file, setFile] = useState('');
-    const [data, getFile] = useState({ name: "", path: "" });
-    const [progress, setProgess] = useState(0);
-    const el = useRef();
+  // Create new plugin instance
+  const defaultLayoutPluginInstance = defaultLayoutPlugin()
 
-    const handleChange = (e) => {
-        setProgess(0)
-        const file = e.target.files[0]
-        console.log(file);
-        setFile(file)
+  // for onchange event
+  const [pdfFile, setPdfFile] = useState(null)
+  const [pdfFileError, setPdfFileError] = useState("")
+
+  // for submit event
+  const [viewPdf, setViewPdf] = useState(null)
+
+  // onchange event
+  const fileType = ["application/pdf"]
+  const handlePdfFileChange = (e) => {
+    let selectedFile = e.target.files[0]
+    if (selectedFile) {
+      if (selectedFile && fileType.includes(selectedFile.type)) {
+        let reader = new FileReader()
+        reader.readAsDataURL(selectedFile)
+        reader.onloadend = (e) => {
+          setPdfFile(e.target.result)
+          setPdfFileError("")
+        }
+      } else {
+        setPdfFile(null)
+        setPdfFileError("Please select valid pdf file")
+      }
+    } else {
+      console.log("select your file")
+    }
+  }
+
+  // form submit
+  const handlePdfFileSubmit = (e) => {
+    e.preventDefault()
+    if (pdfFile !== null) {
+      setViewPdf(pdfFile)
+    } else {
+      setViewPdf(null)
     }
 
-    const uploadFile = () => {
-        const formData = new FormData();
-        formData.append('file', file)
-        axios.post('http://localhost:5016/upload', formData, {
-            onUploadProgress: (ProgressEvent) => {
-                let progress = Math.round(ProgressEvent.loaded / ProgressEvent.total * 100) + '%';
-                setProgess(progress)
-            }
-        }).then(res => {
-            console.log(res);
-            getFile({ name: res.data.name, path: 'http://localhost:5016' + res.data.path })
-            // el.current.value = "";
-        }).catch(err => console.log(err))
-        setFlag(true);
-    }
+    //  const postObject = {
+    //    title: this.state.title,
+    //    description: this.state.description,
+    //    content: this.state.content,
+    //  }
+    //  axios
+    //    .post("http://localhost:5016/posts/create-post", postObject)
+    //    .then((res) => console.log(res.data))
+    //  this.setState({ title: "", description: "", content: "" })
+  }
 
+  return (
+    <div className="container">
+      <br></br>
 
-    return (
-        <div>
-            <div className="file-upload">
-                <input type="file" ref={el} onChange={handleChange} />
-                
-                {/* <div className="progessBar" style={{ width: progress }}>{progress}</div> */}
-                <button onClick={uploadFile} className="upbutton">upload</button>
-            </div>
-            {/* <embed src={data.path} type="application/pdf" width="100%" height="500px"></embed> */}
-            {flag && <iframe src={`${data.path}${"#toolbar=0"}`} width="100%" height="1000px"></iframe>}
-            {/* {data.path && <div><textarea value={data.path} onChange={uploadFile} /></div>}
-            {data.path && <img src={data.path} alt={data.name} />} */}
-        </div>
-    );
+      <form className="form-group" onSubmit={handlePdfFileSubmit}>
+        <input
+          type="file"
+          className="form-control"
+          required
+          onChange={handlePdfFileChange}
+        />
+        {pdfFileError && <div className="error-msg">{pdfFileError}</div>}
+        <br></br>
+        <button type="submit" className="btn btn-success btn-lg">
+          UPLOAD
+        </button>
+      </form>
+      <br></br>
+      <h4>View PDF</h4>
+      <div className="pdf-container">
+        {/* show pdf conditionally (if we have one)  */}
+        {viewPdf && (
+          <>
+            <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.13.216/build/pdf.worker.min.js">
+              <Viewer
+                fileUrl={viewPdf}
+                plugins={[defaultLayoutPluginInstance]}
+              />
+            </Worker>
+          </>
+        )}
+
+        {/* if we dont have pdf or viewPdf state is null */}
+        {!viewPdf && <>No pdf file selected</>}
+      </div>
+    </div>
+  )
 }
 
-
-
-export default FileUpload;
+export default FileUpload
