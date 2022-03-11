@@ -9,7 +9,6 @@ dotenv.config()
 
 // Express Route
 const postRoute = require("../backend/routes/post.route")
-
 const resumeRoute = require("../backend/routes/resume.route")
 
 // Connecting mongoDB Database
