@@ -5,7 +5,9 @@ let bodyParser = require("body-parser")
 let dbConfig = require("./database/db")
 const dotenv = require("dotenv")
 const createError = require("http-errors")
+const fileUpload = require('express-fileupload')
 dotenv.config()
+const router = express.Router()
 
 // Express Route
 const postRoute = require("../backend/routes/post.route")
@@ -34,6 +36,7 @@ app.use(
   })
 )
 app.use(cors())
+app.use(fileUpload())
 app.use("/posts", postRoute)
 app.use("/resume", resumeRoute)
 
@@ -50,7 +53,7 @@ app.use((req, res, next) => {
 })
 
 app.use(function (err, req, res, next) {
-  console.error(err.message)
+  console.error("This isn't it: " + err.message)
   if (!err.statusCode) err.statusCode = 500
   res.status(err.statusCode).send(err.message)
 })
