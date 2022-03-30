@@ -1,6 +1,8 @@
+const asyncify = require('express-asyncify')
+
 let mongoose = require("mongoose"),
   express = require("express"),
-  router = express.Router()
+  router = asyncify(express.Router());
 
 let postSchema = require("../Models/Post")
 
