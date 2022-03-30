@@ -14,6 +14,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
 import CreatePost from "./components/CreatePost"
 import EditPost from "./components/EditPost"
 import PostsList from "./components/PostsList"
+import SignUp from "./components/SignUp"
 
 function MyApp() {
   return (
@@ -43,8 +44,11 @@ function MyApp() {
                     Resume
                   </Link>
                 </Nav>
-
-
+                <Nav>
+                  <Link to={"/signup"} className="nav-link">
+                    Sign Up
+                  </Link>
+                </Nav>
               </Nav>
             </Container>
           </Navbar>
@@ -78,6 +82,11 @@ function MyApp() {
                     exact
                     path="/resume"
                     component={(props) => <Resume {...props} />}
+                  />
+                  <Route
+                    exact
+                    path="/signup"
+                    component={(props) => <SignUp {...props} />}
                   />
                 </Switch>
               </div>
