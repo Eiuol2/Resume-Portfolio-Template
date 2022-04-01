@@ -14,6 +14,7 @@ function SignupForm(props) {
 
   function submitForm() {
     makeSignupCall(user).then((response) => {
+      console.log("this is response: " + response);
       if (response && response.status === 200) {
         const token = response.data
         setUser({ username: "", pwd: "" })
@@ -29,8 +30,11 @@ function SignupForm(props) {
 
   async function makeSignupCall(user) {
     try {
-      const response = await axios.post("http://localhost:5016/signup", user)
-      return response
+      const signupObject = {
+        username: user.username,
+        pwd: user.pwd
+      }
+      const response = axios.post("http://localhost:5016/users/signup", signupObject).then((res) => console.log(res.data))
     } catch (error) {
       console.log(error)
       return false
