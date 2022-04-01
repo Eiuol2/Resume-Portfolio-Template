@@ -59,4 +59,29 @@ router.route("/signup").post( async (req, res, next) => {
   }
 });
 
+
+
+app.post("/login", async (req, res) => {
+  const username = req.body.username;
+  const pwd = req.body.pwd;
+  // Call a model function to retrieve an existing user based on username 
+  //  (or any other unique identifier such as email if that applies to your app)
+  // Using our fake user for demo purposes
+  const retrievedUser = await userSchema.find({"username": username}); 
+  if (retrievedUser.username && retrievedUser.pwd) {
+    const isValid = await bcrypt.compare(pwd, retrievedUser.pwd);
+    if (isValid) {
+      // Generate token and respond
+      const token = generateAccessToken(username);
+      res.status(200).send(token);
+    } else {
+      //Unauthorized due to invalid pwd
+      res.status(401).send("Unauthorized");
+    }
+  } else {
+    //Unauthorized due to invalid username
+    res.status(401).send("Unauthorized");
+  }
+}); 
+
 module.exports = router
