@@ -1,9 +1,9 @@
 import React, { useEffect } from "react"
 import { useCookies } from "react-cookie"
 import axios from "axios"
-import SignupForm from "./SignupForm"
+import LoginForm from "./LoginForm"
 
-function SignUp() {
+function SignIn() {
   const [cookies, setCookie] = useCookies(["auth_token"])
 
   function setToken(token) {
@@ -55,10 +55,10 @@ function SignUp() {
 
   return (
     <div>
-      <p>React Sign up page!</p>
-      <SignupForm setToken={setToken} />
+      <p>React Sign in page!</p>
+      <LoginForm setToken={setToken} />
     </div>
   )
 }
 
-export default SignUp
+export default SignIn
