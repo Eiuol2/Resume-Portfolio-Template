@@ -9,13 +9,6 @@ let postSchema = require("../Models/Post");
 // create post
 router.route("/create-post").post((req, res, next) => {
   postSchema.create(req.body, (error, data) => {
-    const fake = {
-      title: "This is test 1",
-      description: "This is testing to see if it works",
-      content: "www.google.com",
-    };
-    console.log("THIS IS REQ.BODY :" + JSON.stringify(req.body));
-    console.log("THIS IS THE FAKE USER :" + JSON.stringify(fake));
     if (error) {
       return next(error);
     } else {

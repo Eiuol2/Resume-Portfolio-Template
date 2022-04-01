@@ -12,12 +12,13 @@ const jwt = require('jsonwebtoken');
 
 
 dotenv.config()
-const router = express.Router()
 
 // Express Route
 const postRoute = require("../backend/routes/post.route")
 
 const resumeRoute = require("../backend/routes/resume.route")
+
+const userRoute = require("../backend/routes/user.route")
 
 // Connecting mongoDB Database
 mongoose.Promise = global.Promise
@@ -43,7 +44,7 @@ app.use(
 app.use(cors())
 app.use("/posts", postRoute)
 app.use("/resume", resumeRoute)
-
+app.use("/user", userRoute);
 
 //---------------------------------------------JWT RELATED---------------------------------------------------------------
 

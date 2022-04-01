@@ -1,4 +1,6 @@
 const asyncify = require('express-asyncify')
+const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
 
 let mongoose = require("mongoose"),
   express = require("express"),
@@ -14,15 +16,15 @@ function generateAccessToken(username) {
 
 //Signup
 
-router.route("/signup").post((req, res, next) => {
+router.route("/signup").post( async (req, res, next) => {
   const placeholderUser = {username: "", pwd: ""};
   const username = req.body.username;
-  const userPwd = req.body.pwd;
-  const userExist = userSchema.find({"username": username}); 
+  const userPwd = req.body.pwd.toString();
+  const userExist = await userSchema.find({"username": username});
   if (!username && !pwd) {
     res.status(400).send("Bad request: Invalid input data.");
   } else {
-    if (userExist.hasNext() === true) {
+    if (userExist.length > 0) {
       //Conflicting usernames. Assuming it's not allowed, then:
       res.status(409).send("Username already taken");
     } else {
@@ -34,7 +36,9 @@ router.route("/signup").post((req, res, next) => {
         More info: https://auth0.com/blog/adding-salt-to-hashing-a-better-way-to-store-passwords/
         */
       // Also, you can pull this salt from an env variable
+      
       const salt = await bcrypt.genSalt(10);
+
       // On the database you never store the user input pwd.
       // So, let's hash it:
       const hashedPWd = await bcrypt.hash(userPwd, salt);
@@ -54,3 +58,5 @@ router.route("/signup").post((req, res, next) => {
     }
   }
 });
+
+module.exports = router
