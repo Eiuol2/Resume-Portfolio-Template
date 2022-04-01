@@ -15,6 +15,8 @@ import CreatePost from "./components/CreatePost"
 import EditPost from "./components/EditPost"
 import PostsList from "./components/PostsList"
 import SignUp from "./components/SignUp"
+import SignIn from "./components/SignIn"
+import useCookies from "react-cookie"
 
 function MyApp() {
   return (
@@ -47,6 +49,11 @@ function MyApp() {
                 <Nav>
                   <Link to={"/signup"} className="nav-link">
                     Sign Up
+                  </Link>
+                </Nav>
+                <Nav>
+                  <Link to={"/signin"} className="nav-link">
+                    Sign In
                   </Link>
                 </Nav>
               </Nav>
@@ -87,6 +94,11 @@ function MyApp() {
                     exact
                     path="/signup"
                     component={(props) => <SignUp {...props} />}
+                  />
+                  <Route
+                    exact
+                    path="/signin"
+                    component={(props) => <SignIn {...props} />}
                   />
                 </Switch>
               </div>
