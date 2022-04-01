@@ -14,6 +14,8 @@ function SignUp() {
     fetchAll().then((result) => {
       if (result) {
         console.log("successfully fetched users!")
+      } else {
+        console.log("error couldnt fetch user list.")
       }
     })
   }, [cookies])

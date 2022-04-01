@@ -22,6 +22,7 @@ function SignupForm(props) {
         // once sign up, then go to home page
         history("/")
       } else {
+        console.log(response)
         setMsg("Invalid signup credentials!")
       }
     })
