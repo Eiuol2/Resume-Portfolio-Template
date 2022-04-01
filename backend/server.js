@@ -44,7 +44,7 @@ app.use(
 app.use(cors())
 app.use("/posts", postRoute)
 app.use("/resume", resumeRoute)
-app.use("/user", userRoute);
+app.use("/users", userRoute);
 
 //---------------------------------------------JWT RELATED---------------------------------------------------------------
 

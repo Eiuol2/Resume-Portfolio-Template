@@ -67,12 +67,8 @@ router.route("/login").post( async (req, res) => {
   //  (or any other unique identifier such as email if that applies to your app)
   // Using our fake user for demo purposes
   const retrievedUser = await userSchema.find({"username": username}); 
-  console.log("This is retrieved user: " + retrievedUser)
-  console.log("This username: " + retrievedUser.username);
-  console.log("This is pwd: " + retrievedUser.pwd);
-  if (retrievedUser.username && retrievedUser.pwd) {
-    const isValid = await bcrypt.compare(pwd, retrievedUser.pwd);
-    console.log("This is isValid: " + isValid)
+  if (retrievedUser[0].username && retrievedUser[0].pwd) {
+    const isValid = await bcrypt.compare(pwd.toString(), retrievedUser[0].pwd.toString());
     if (isValid) {
       // Generate token and respond
       const token = generateAccessToken(username)
