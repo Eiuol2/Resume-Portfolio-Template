@@ -19,7 +19,8 @@ function LoginForm(props) {
         setUser({ username: "", pwd: "" })
         setMsg("")
         props.setToken(token)
-        navigate("/users-table")
+        //once logged in, go to home or the posts list
+        navigate("/posts-list")
       } else {
         setMsg("Invalid login credentials!")
       }

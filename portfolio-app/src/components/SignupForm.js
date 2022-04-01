@@ -19,9 +19,10 @@ function SignupForm(props) {
         setUser({ username: "", pwd: "" })
         setMsg("")
         props.setToken(token)
-        navigate("/users-table")
+        // once sign up, then go to home page
+        navigate("/")
       } else {
-        setMsg("Invalid login credentials!")
+        setMsg("Invalid signup credentials!")
       }
     })
   }

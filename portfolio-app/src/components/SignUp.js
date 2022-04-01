@@ -25,7 +25,7 @@ function SignUp() {
       }
       const response = await axios.get("http://localhost:5016/users", config)
       console.log(response)
-      return response.data.users_list
+      return response.data.users
     } catch (error) {
       // We're not handling errors. Just logging into the console.
       console.log(error)
