@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import axios from "axios"
-import { useNavigate } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 
 function LoginForm(props) {
   const [user, setUser] = useState({
@@ -8,7 +8,7 @@ function LoginForm(props) {
     pwd: "",
   })
 
-  const navigate = useNavigate()
+  const history = useHistory()
 
   const [message, setMsg] = useState("")
 
@@ -20,7 +20,7 @@ function LoginForm(props) {
         setMsg("")
         props.setToken(token)
         //once logged in, go to home or the posts list
-        navigate("/posts-list")
+        history.push("/posts-list")
       } else {
         setMsg("Invalid login credentials!")
       }
@@ -47,7 +47,7 @@ function LoginForm(props) {
         value={user.username}
         onChange={(event) => setUser({ ...user, username: event.target.value })}
       />
-      <label htmlFor="job">Password</label>
+      <label htmlFor="password">Password</label>
       <input
         type="password"
         name="pwd"

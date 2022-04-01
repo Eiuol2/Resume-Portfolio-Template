@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import axios from "axios"
-import { useNavigate } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 
 function SignupForm(props) {
   const [user, setUser] = useState({
@@ -8,7 +8,7 @@ function SignupForm(props) {
     pwd: "",
   })
 
-  const navigate = useNavigate()
+  const history = useHistory()
 
   const [message, setMsg] = useState("")
 
@@ -20,7 +20,7 @@ function SignupForm(props) {
         setMsg("")
         props.setToken(token)
         // once sign up, then go to home page
-        navigate("/")
+        history("/")
       } else {
         setMsg("Invalid signup credentials!")
       }
@@ -47,7 +47,7 @@ function SignupForm(props) {
         value={user.username}
         onChange={(event) => setUser({ ...user, username: event.target.value })}
       />
-      <label htmlFor="job">Password</label>
+      <label htmlFor="password">Password</label>
       <input
         type="password"
         name="pwd"
