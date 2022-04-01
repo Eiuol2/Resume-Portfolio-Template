@@ -25,7 +25,7 @@ function SignUp() {
       const config = {
         headers: { Authorization: `Bearer ${cookies.auth_token}` },
       }
-      const response = await axios.get("http://localhost:5016/users", config)
+      const response = await axios.get("http://localhost:5016/users/", config)
       console.log(response)
       return response.data.users
     } catch (error) {
@@ -37,7 +37,7 @@ function SignUp() {
 
   async function makePostCall(person) {
     try {
-      const response = await axios.post("http://localhost:5016/users", person)
+      const response = await axios.post("http://localhost:5016/users/", person)
       return response
     } catch (error) {
       console.log(error)

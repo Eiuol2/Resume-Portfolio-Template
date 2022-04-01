@@ -6,7 +6,8 @@ let mongoose = require("mongoose"),
   express = require("express"),
   router = asyncify(express.Router())
 
-let userSchema = require("../Models/User")
+let userSchema = require("../Models/User");
+const { restart } = require('nodemon');
 
 function generateAccessToken(username) {
   return jwt.sign({ username: username }, process.env.TOKEN_SECRET, {
@@ -59,15 +60,19 @@ router.route("/signup").post(async (req, res, next) => {
   }
 })
 
-router.route("/login").post(async (req, res) => {
-  const username = req.body.username
-  const pwd = req.body.pwd
-  // Call a model function to retrieve an existing user based on username
+router.route("/login").post( async (req, res) => {
+  const username = req.body.username;
+  const pwd = req.body.pwd;
+  // Call a model function to retrieve an existing user based on username 
   //  (or any other unique identifier such as email if that applies to your app)
   // Using our fake user for demo purposes
-  const retrievedUser = await userSchema.find({ username: username })
+  const retrievedUser = await userSchema.find({"username": username}); 
+  console.log("This is retrieved user: " + retrievedUser)
+  console.log("This username: " + retrievedUser.username);
+  console.log("This is pwd: " + retrievedUser.pwd);
   if (retrievedUser.username && retrievedUser.pwd) {
-    const isValid = await bcrypt.compare(pwd, retrievedUser.pwd)
+    const isValid = await bcrypt.compare(pwd, retrievedUser.pwd);
+    console.log("This is isValid: " + isValid)
     if (isValid) {
       // Generate token and respond
       const token = generateAccessToken(username)
