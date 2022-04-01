@@ -11,17 +11,19 @@ function SignupForm(props) {
   const history = useHistory()
 
   const [message, setMsg] = useState("")
+  const [cookies, setCookies] = useState("");
+
 
   function submitForm() {
     makeSignupCall(user).then((response) => {
-      console.log("this is response: " + response);
-      if (response && response.status === 200) {
+      console.log("this is response: " + response.status);
+      if (response && response.status === 201) {
         const token = response.data
         setUser({ username: "", pwd: "" })
         setMsg("")
         props.setToken(token)
         // once sign up, then go to home page
-        history("/")
+        history.push("/")
       } else {
         console.log(response)
         setMsg("Invalid signup credentials!")
@@ -35,7 +37,11 @@ function SignupForm(props) {
         username: user.username,
         pwd: user.pwd
       }
-      const response = axios.post("http://localhost:5016/users/signup", signupObject).then((res) => console.log(res.data))
+      const response = await axios.post("http://localhost:5016/users/signup", signupObject)
+      setCookies(response.data);
+      console.log("This is cookies: " + cookies);
+      console.log("This is backend response: " + response.data);
+      return response
     } catch (error) {
       console.log(error)
       return false
