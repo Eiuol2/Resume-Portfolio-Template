@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import axios from "axios"
-import { Card } from "react-bootstrap"
+import { Card, Button } from "react-bootstrap"
 import "../styling/box.css"
 
 class PostsList extends Component {
@@ -35,7 +35,12 @@ class PostsList extends Component {
         </Card>
       )
     }
-    return <div className="grid">{this.state.posts.map(renderCard)}</div>
+    return (
+      <>
+        <Button>Add New Project</Button>
+        <div className="grid">{this.state.posts.map(renderCard)}</div>
+      </>
+    )
   }
 }
 
