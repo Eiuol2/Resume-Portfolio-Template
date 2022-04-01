@@ -18,6 +18,8 @@ const postRoute = require("../backend/routes/post.route")
 
 const resumeRoute = require("../backend/routes/resume.route")
 
+const userRoute = require("../backend/routes/user.route")
+
 // Connecting mongoDB Database
 mongoose.Promise = global.Promise
 mongoose
@@ -42,7 +44,7 @@ app.use(
 app.use(cors())
 app.use("/posts", postRoute)
 app.use("/resume", resumeRoute)
-
+app.use("/user", userRoute);
 
 //---------------------------------------------JWT RELATED---------------------------------------------------------------
 
@@ -50,44 +52,7 @@ app.use("/resume", resumeRoute)
 //Generating tokens
 
 
-function generateAccessToken(username) {
-  return jwt.sign({"username": username}, process.env.TOKEN_SECRET, { expiresIn: "800s" });
-}
 
-//Signup
-
-app.post("/signup", async (req, res) => {
-  const username = req.body.username;
-  const userPwd = req.body.pwd; 
-  if (!username && !pwd) {
-    res.status(400).send("Bad request: Invalid input data.");
-  } else {
-    if (username === fakeUser.username) {
-      //Conflicting usernames. Assuming it's not allowed, then:
-      res.status(409).send("Username already taken");
-    } else {
-      // generate salt to hash password
-      /* Made up of random bits added to each password instance before its hashing. 
-      Salts create unique passwords even in the instance of two users choosing the 
-      same passwords. Salts help us mitigate hash table attacks by forcing attackers 
-      to re-compute them using the salts for each user.
-      More info: https://auth0.com/blog/adding-salt-to-hashing-a-better-way-to-store-passwords/
-      */
-      // Also, you can pull this salt from an env variable
-      const salt = await bcrypt.genSalt(10);
-      // On the database you never store the user input pwd. 
-      // So, let's hash it:
-      const hashedPWd = await bcrypt.hash(userPwd, salt);
-      // Now, call a model function to store the username and hashedPwd (a new user)
-      // For demo purposes, I'm skipping the model piece, and assigning the new user to this fake obj
-      fakeUser.username = username;
-      fakeUser.pwd = hashedPWd;
-      
-      const token = generateAccessToken(username);
-      res.status(201).send(token);
-    }
-  }
-});
 
 
 
@@ -111,7 +76,7 @@ app.use((req, res, next) => {
 })
 
 app.use(function (err, req, res, next) {
-  console.error(err.message)
+  console.error("This isn't it: " + err.message)
   if (!err.statusCode) err.statusCode = 500
   res.status(err.statusCode).send(err.message)
 })

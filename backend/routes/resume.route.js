@@ -1,8 +1,8 @@
 let mongoose = require("mongoose"),
   express = require("express"),
-  router = express.Router()
+  router = express.Router();
 
-let resumeSchema = require("../Models/Resume")
+let resumeSchema = require("../Models/Resume");
 
 router.route("/upload").post((req, res) => {
   console.log("This is the req: " + req);
@@ -27,7 +27,7 @@ router.route("/upload").post((req, res) => {
 });
 
 // create post
-router.route("/upload-resume").post((req, res, next) => {
+router.route("/upload").post((req, res, next) => {
   resumeSchema.create(req.body, (error, data) => {
     if (error) {
       return next(error)
@@ -42,36 +42,35 @@ router.route("/upload-resume").post((req, res, next) => {
 router.route("/").get((req, res) => {
   resumeSchema.find((error, data) => {
     if (error) {
-      return next(error)
+      return next(error);
     } else {
-      res.json(data)
+      res.json(data);
     }
-  })
-})
+  });
+});
 
 // get single post
 router.route("/edit-resume/:id").get((req, res) => {
   resumeSchema.findById(req.params.id, (error, data) => {
     if (error) {
-      return next(error)
+      return next(error);
     } else {
-      res.json(data)
+      res.json(data);
     }
-  })
-})
-
+  });
+});
 
 //delete post
 router.route("/delete-resume/:id").delete((req, res, next) => {
   resumeSchema.findByIdAndRemove(req.params.id, (error, data) => {
     if (error) {
-      return next(error)
+      return next(error);
     } else {
       res.status(200).json({
         msg: data, // ???
-      })
+      });
     }
-  })
-})
+  });
+});
 
-module.exports = router
+module.exports = router;
