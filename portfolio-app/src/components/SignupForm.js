@@ -11,8 +11,6 @@ function SignupForm(props) {
   const history = useHistory()
 
   const [message, setMsg] = useState("")
-  const [cookies, setCookies] = useState("");
-
 
   function submitForm() {
     makeSignupCall(user).then((response) => {
@@ -38,8 +36,7 @@ function SignupForm(props) {
         pwd: user.pwd
       }
       const response = await axios.post("http://localhost:5016/users/signup", signupObject)
-      setCookies(response.data);
-      console.log("This is cookies: " + cookies);
+      props.setToken(response.data)
       console.log("This is backend response: " + response.data);
       return response
     } catch (error) {

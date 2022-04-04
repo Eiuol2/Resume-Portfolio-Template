@@ -33,7 +33,10 @@ function LoginForm(props) {
 
   async function makeLoginCall(user) {
     try {
-      const response = await axios.post("http://localhost:5016/login", user)
+      const loginObject = {"username" : user.username, "pwd" : user.pwd}
+      const response = await axios.post("http://localhost:5016/users/login", loginObject)
+      props.setToken(response.data);
+      console.log("This is the login response token: " + response.data)
       return response
     } catch (error) {
       console.log(error)
