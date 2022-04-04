@@ -13,7 +13,7 @@ function SignIn() {
   useEffect(() => {
     fetchAll().then((result) => {
       if (result) {
-        conpmnsole.log("successfully fetched users!")
+        console.log("successfully fetched users!")
       }
     })
   }, [cookies])

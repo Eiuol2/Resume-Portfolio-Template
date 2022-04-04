@@ -9,8 +9,8 @@ let mongoose = require("mongoose"),
 let userSchema = require("../Models/User");
 const { restart } = require('nodemon');
 
-function generateAccessToken(username) {
-  return jwt.sign({ username: username }, process.env.TOKEN_SECRET, {
+function generateAccessToken(id) {
+  return jwt.sign({ _id: id}, process.env.TOKEN_SECRET, {
     expiresIn: "800s",
   })
 }
@@ -52,10 +52,11 @@ router.route("/signup").post(async (req, res, next) => {
           return next(error)
         } else {
           console.log(data)
+          const token = generateAccessToken(data._id)
+          res.status(201).send(token)
         }
       })
-      const token = generateAccessToken(username)
-      res.status(201).send(token)
+
     }
   }
 })
