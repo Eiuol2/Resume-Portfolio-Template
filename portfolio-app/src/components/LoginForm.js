@@ -14,7 +14,10 @@ function LoginForm(props) {
 
   function submitForm() {
     makeLoginCall(user).then((response) => {
+
       if (response && response.status === 200) {
+
+
         const token = response.data
         setUser({ username: "", pwd: "" })
         setMsg("")
@@ -22,6 +25,7 @@ function LoginForm(props) {
         //once logged in, go to home or the posts list
         history.push("/posts-list")
       } else {
+
         setMsg("Invalid login credentials!")
       }
     })
