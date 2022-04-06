@@ -34,8 +34,11 @@ class CreatePost extends Component {
       description: this.state.description,
       content: this.state.content,
     }
+    const config = {
+      headers: { Authorization: `Bearer ${cookies.auth_token}` },
+    }
     axios
-      .post("http://localhost:5016/posts/create-post", postObject)
+      .post("http://localhost:5016/posts/create-post", postObject, config)
       .then((res) => console.log(res.data))
     this.setState({ title: "", description: "", content: "" })
   }

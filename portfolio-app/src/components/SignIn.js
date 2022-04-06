@@ -4,11 +4,7 @@ import axios from "axios"
 import LoginForm from "./LoginForm"
 
 function SignIn() {
-  const [cookies, setCookie] = useCookies(["auth_token"])
 
-  function setToken(token) {
-    setCookie("auth_token", token, { maxAge: 1800, path: "/" })
-  }
 
   useEffect(() => {
     fetchAll().then((result) => {

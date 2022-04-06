@@ -85,32 +85,6 @@ router.route("/login").post( async (req, res) => {
 })
 
 
-function authenticateUser(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  //Getting the 2nd part of the auth hearder (the token)
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) {
-    console.log("No token received");
-    return res.status(401).end();
-  } else {
-    // If a callback is supplied, verify() runs async
-    // If a callback isn't supplied, verify() runs synchronously
-    // verify() throws an error if the token is invalid
-    try {
-      // verify() returns the decoded obj which includes whatever objs
-      // we use to code/sign the token
-      const decoded = jwt.verify(token, process.env.TOKEN_SECRET);  
-      req.userid = decoded; 
-      // in our case, we used the username to sign the token
-      console.log(decoded);
-      next();
-    } catch (error) {
-      console.log(error);
-      return res.status(401).end();  
-    }
-  }
-}
 
 
 

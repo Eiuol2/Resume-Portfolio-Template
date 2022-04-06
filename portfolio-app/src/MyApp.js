@@ -19,6 +19,12 @@ import SignIn from "./components/SignIn"
 import useCookies from "react-cookie"
 
 function MyApp() {
+  const [cookies, setCookie] = useCookies(['auth_token']);
+
+  function setToken(token) {
+    setCookie("auth_token", token, { maxAge: 1800, path: "/" })
+  }
+  
   return (
     <div className="App">
       <Router>
@@ -98,7 +104,7 @@ function MyApp() {
                   <Route
                     exact
                     path="/signin"
-                    component={(props) => <SignIn {...props} />}
+                    component={(props) => <SignIn {...props} />}//pass settoken as prop
                   />
                 </Switch>
               </div>
