@@ -24,7 +24,7 @@ function SignupForm(props) {
         history.push("/")
       } else {
         console.log(response)
-        setMsg("Invalid signup credentials!")
+        setMsg("Invalid signup credentials, username already taken!")
       }
     })
   }

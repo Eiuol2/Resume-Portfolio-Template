@@ -16,7 +16,7 @@ import EditPost from "./components/EditPost"
 import PostsList from "./components/PostsList"
 import SignUp from "./components/SignUp"
 import SignIn from "./components/SignIn"
-import useCookies from "react-cookie"
+import { useCookies } from "react-cookie"
 
 function MyApp() {
   const [cookies, setCookie] = useCookies(['auth_token']);
@@ -58,7 +58,7 @@ function MyApp() {
                   </Link>
                 </Nav>
                 <Nav>
-                  <Link to={"/signin"} className="nav-link">
+                  <Link to={"/signin"} className="nav-link" >
                     Sign In
                   </Link>
                 </Nav>
@@ -103,9 +103,10 @@ function MyApp() {
                   />
                   <Route
                     exact
-                    path="/signin"
-                    component={(props) => <SignIn {...props} />}//pass settoken as prop
-                  />
+                    path="/signin">
+                    <SignIn setToken={setToken} />
+
+                    </Route>
                 </Switch>
               </div>
             </Col>
