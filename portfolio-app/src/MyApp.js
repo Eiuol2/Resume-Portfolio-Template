@@ -11,7 +11,7 @@ import FileUpload from "./fileupload"
 import "./styling/MyApp.css"
 import { Container, Row, Col, Nav, Navbar } from "react-bootstrap"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
-import CreatePost from "./components/CreatePost"
+import CreatePost2 from "./components/CreatePost2"
 import EditPost from "./components/EditPost"
 import PostsList from "./components/PostsList"
 import SignUp from "./components/SignUp"
@@ -23,6 +23,8 @@ function MyApp() {
 
   function setToken(token) {
     setCookie("auth_token", token, { maxAge: 1800, path: "/" })
+    console.log("This is our current token: " + token);
+    console.log("This is the cookie after being set: " + cookies.auth_token);
   }
   
   return (
@@ -73,14 +75,14 @@ function MyApp() {
                 <Switch>
                   <Route
                     exact
-                    path="/"
-                    component={(props) => <CreatePost {...props} />}
-                  />
+                    path="/">
+                      <CreatePost2 cookies={cookies} />
+                  </Route>
                   <Route
                     exact
-                    path="/create-post"
-                    component={(props) => <CreatePost {...props} />}
-                  />
+                    path="/create-post">
+                      <CreatePost2 cookies={cookies} />
+                  </Route>
                   <Route
                     exact
                     path="/edit-post/:id"
