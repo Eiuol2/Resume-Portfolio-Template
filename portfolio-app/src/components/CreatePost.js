@@ -1,7 +1,9 @@
 import axios from "axios"
 import React, { Component } from "react"
 import { Form, Button } from "react-bootstrap"
+
 class CreatePost extends Component {
+  
   constructor(props) {
     super(props)
 
@@ -27,14 +29,16 @@ class CreatePost extends Component {
     this.setState({ content: e.target.value })
   }
 
+  
+
   onSubmit(e) {
     e.preventDefault()
     const postObject = {
       title: this.state.title,
       description: this.state.description,
       content: this.state.content,
-    }
-    const config = {
+    } 
+    const config = { //added 
       headers: { Authorization: `Bearer ${cookies.auth_token}` },
     }
     axios

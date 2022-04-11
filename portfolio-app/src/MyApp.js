@@ -16,7 +16,8 @@ import EditPost from "./components/EditPost"
 import PostsList from "./components/PostsList"
 import SignUp from "./components/SignUp"
 import SignIn from "./components/SignIn"
-import useCookies from "react-cookie"
+import { useCookies } from 'react-cookie'
+
 
 function MyApp() {
   const [cookies, setCookie] = useCookies(['auth_token']);
