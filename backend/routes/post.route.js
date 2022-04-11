@@ -1,4 +1,5 @@
 const asyncify = require("express-asyncify");
+const jwt = require('jsonwebtoken')
 
 
 let mongoose = require("mongoose"),
@@ -9,6 +10,7 @@ let postSchema = require("../Models/Post");
 
 
 function authenticateUser(req, res, next) {
+  console.log("this is req: " + req);
   const authHeader = req.headers["authorization"];
   //Getting the 2nd part of the auth hearder (the token)
   const token = authHeader && authHeader.split(' ')[1];
@@ -37,7 +39,8 @@ function authenticateUser(req, res, next) {
 
 //authenticate block
 router.use("/create-post", (req, res, next) => {
-  authenticateUser();
+  console.log("This is req1: " + JSON.stringify(req.headers['authorization']));
+  authenticateUser(req, res, next);
 });
 
 
@@ -45,6 +48,7 @@ router.use("/create-post", (req, res, next) => {
 router.route("/create-post").post((req, res, next) => {
   const object = req.body;
   object.userid = req.userid;
+  console.log("This is userid: " + object.userid);
   postSchema.create(object, (error, data) => {
     if (error) {
       return next(error);

@@ -3,37 +3,31 @@ import { useCookies } from "react-cookie"
 import axios from "axios"
 import LoginForm from "./LoginForm"
 
-function SignIn() {
-
-  const [cookies, setCookie] = useCookies(['auth_token']);
-
-  function setToken(token) {
-    setCookie("auth_token", token, { maxAge: 1800, path: "/" })
-  }
+function SignIn(props) {
 
 
-  useEffect(() => {
-    fetchAll().then((result) => {
-      if (result) {
-        console.log("successfully fetched users!")
-      }
-    })
-  }, [cookies])
+  // useEffect(() => {
+  //   fetchAll().then((result) => {
+  //     if (result) {
+  //       console.log("successfully fetched users!")
+  //     }
+  //   })
+  // }, [])
 
-  async function fetchAll() {
-    try {
-      const config = {
-        headers: { Authorization: `Bearer ${cookies.auth_token}` },
-      }
-      const response = await axios.get("http://localhost:5016/users", config)
-      console.log(response)
-      return response.data.users
-    } catch (error) {
-      // We're not handling errors. Just logging into the console.
-      console.log(error)
-      return false
-    }
-  }
+  // async function fetchAll() {
+  //   try {
+  //     const config = {
+  //       headers: { Authorization: `Bearer ${cookies.auth_token}` },
+  //     }
+  //     const response = await axios.get("http://localhost:5016/users", config)
+  //     console.log(response)
+  //     return response.data.users
+  //   } catch (error) {
+  //     // We're not handling errors. Just logging into the console.
+  //     console.log(error)
+  //     return false
+  //   }
+  // }
 
   async function makePostCall(person) {
     try {
@@ -58,7 +52,7 @@ function SignIn() {
   return (
     <div>
       <p>React Sign in page!</p>
-      <LoginForm setToken={setToken} />
+      <LoginForm setToken={props.setToken} />
     </div>
   )
 }

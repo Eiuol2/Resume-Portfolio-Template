@@ -11,19 +11,20 @@ import FileUpload from "./fileupload"
 import "./styling/MyApp.css"
 import { Container, Row, Col, Nav, Navbar } from "react-bootstrap"
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
-import CreatePost from "./components/CreatePost"
+import CreatePost2 from "./components/CreatePost2"
 import EditPost from "./components/EditPost"
 import PostsList from "./components/PostsList"
 import SignUp from "./components/SignUp"
 import SignIn from "./components/SignIn"
-import { useCookies } from 'react-cookie'
-
+import { useCookies } from "react-cookie"
 
 function MyApp() {
   const [cookies, setCookie] = useCookies(['auth_token']);
 
   function setToken(token) {
     setCookie("auth_token", token, { maxAge: 1800, path: "/" })
+    console.log("This is our current token: " + token);
+    console.log("This is the cookie after being set: " + cookies.auth_token);
   }
   
   return (
@@ -59,7 +60,7 @@ function MyApp() {
                   </Link>
                 </Nav>
                 <Nav>
-                  <Link to={"/signin"} className="nav-link">
+                  <Link to={"/signin"} className="nav-link" >
                     Sign In
                   </Link>
                 </Nav>
@@ -74,14 +75,14 @@ function MyApp() {
                 <Switch>
                   <Route
                     exact
-                    path="/"
-                    component={(props) => <CreatePost {...props} />}
-                  />
+                    path="/">
+                      <CreatePost2 cookies={cookies} />
+                  </Route>
                   <Route
                     exact
-                    path="/create-post"
-                    component={(props) => <CreatePost {...props} />}
-                  />
+                    path="/create-post">
+                      <CreatePost2 cookies={cookies} />
+                  </Route>
                   <Route
                     exact
                     path="/edit-post/:id"
@@ -104,9 +105,10 @@ function MyApp() {
                   />
                   <Route
                     exact
-                    path="/signin"
-                    component={(props) => <SignIn {...props} />}//pass settoken as prop
-                  />
+                    path="/signin">
+                    <SignIn setToken={setToken} />
+
+                    </Route>
                 </Switch>
               </div>
             </Col>

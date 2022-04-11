@@ -1,6 +1,11 @@
 import axios from "axios"
 import React, { Component } from "react"
 import { Form, Button } from "react-bootstrap"
+import { useCookies } from 'react-cookie'
+
+const [cookies, setCookie] = useCookies(['auth_token']);
+
+
 
 class CreatePost extends Component {
   
@@ -18,6 +23,7 @@ class CreatePost extends Component {
       content: "",
     }
   }
+
 
   onChangePostTitle(e) {
     this.setState({ title: e.target.value })
