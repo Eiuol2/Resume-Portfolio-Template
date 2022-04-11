@@ -1,17 +1,17 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import axios from "axios"
-import { useCookies } from "react-cookie"
-
-
 
 function CreatePost2(props) {
-    console.log("This is props: " + JSON.stringify(props));
-    console.log("This is our new cookies in create post: " + props.cookies.auth_token);
   const [postObject, setPostObject] = useState({
     title: "",
     description: "",
     content: ""
   })
+
+  useEffect(() =>{
+    console.log("This is props: " + JSON.stringify(props));
+    console.log("This is our new cookies in create post: " + props.cookies.auth_token);
+  }, [])
 
   function submitForm() {
     const posting = {
