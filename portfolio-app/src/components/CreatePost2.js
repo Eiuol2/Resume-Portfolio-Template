@@ -9,6 +9,11 @@ function CreatePost2(props) {
     content: "",
   })
 
+  useEffect(() =>{
+    console.log("This is props: " + JSON.stringify(props));
+    console.log("This is our new cookies in create post: " + props.cookies.auth_token);
+  }, [])
+
   function submitForm() {
     const posting = {
       title: postObject.title,
