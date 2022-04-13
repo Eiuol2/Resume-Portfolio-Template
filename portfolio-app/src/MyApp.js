@@ -19,14 +19,23 @@ import SignIn from "./components/SignIn"
 import { useCookies } from "react-cookie"
 
 function MyApp() {
-  const [cookies, setCookie] = useCookies(['auth_token']);
+  const [cookies, setCookie, removeCookie] = useCookies(['auth_token']);
 
   function setToken(token) {
     setCookie("auth_token", token, { maxAge: 1800, path: "/" })
     console.log("This is our current token: " + token);
     console.log("This is the cookie after being set: " + cookies.auth_token);
   }
+  console.log("This is cookies: " + cookies)
+  console.log("THis is cookies 0th idnex: " + JSON.stringify(cookies))
   
+  function logout() {
+    console.log("Here");
+    removeCookie("auth_token")
+    console.log(cookies === undefined)
+    console.log(cookies[0])
+  }
+
   return (
     <div className="App">
       <Router>
@@ -39,31 +48,34 @@ function MyApp() {
                 </Link>
               </Navbar.Brand>
               <Nav className="justify-content-end">
-                <Nav>
+              {cookies.auth_token && <Nav>
                   <Link to={"/create-post"} className="nav-link">
                     Create Post
                   </Link>
-                </Nav>
-                <Nav>
+                </Nav>}
+                {cookies.auth_token && <Nav>
                   <Link to={"/posts-list"} className="nav-link">
                     Posts List
                   </Link>
-                </Nav>
-                <Nav>
+                </Nav>}
+                {cookies.auth_token && <Nav>
                   <Link to={"/resume"} className="nav-link">
                     Resume
                   </Link>
-                </Nav>
-                <Nav>
+                </Nav>}
+                {!cookies.auth_token && <Nav>
                   <Link to={"/signup"} className="nav-link">
                     Sign Up
                   </Link>
-                </Nav>
-                <Nav>
+                </Nav>}
+                {!cookies.auth_token && <Nav>
                   <Link to={"/signin"} className="nav-link" >
                     Sign In
                   </Link>
-                </Nav>
+                </Nav>}
+                {cookies.auth_token && <Nav>
+                  <button onClick={logout}>Logout</button>
+                </Nav>}
               </Nav>
             </Container>
           </Navbar>
@@ -73,42 +85,42 @@ function MyApp() {
             <Col md={12}>
               <div className="wrapper">
                 <Switch>
-                  <Route
+                {cookies.auth_token && <Route
                     exact
                     path="/">
                       <CreatePost2 cookies={cookies} />
-                  </Route>
-                  <Route
+                  </Route>}
+                  {cookies.auth_token &&  <Route
                     exact
                     path="/create-post">
                       <CreatePost2 cookies={cookies} />
-                  </Route>
-                  <Route
+                  </Route>}
+                  {cookies.auth_token && <Route
                     exact
                     path="/edit-post/:id"
                     component={(props) => <EditPost {...props} />}
-                  />
-                  <Route
+                  />}
+                  {cookies.auth_token && <Route
                     exact
-                    path="/posts-list"
-                    component={(props) => <PostsList {...props} />}
-                  />
-                  <Route
+                    path="/posts-list">
+                      <PostsList cookies={cookies} />
+                  </Route>}
+                  {cookies.auth_token && <Route
                     exact
                     path="/resume"
                     component={(props) => <Resume {...props} />}
-                  />
-                  <Route
+                  />}
+                  {!cookies.auth_token && <Route
                     exact
                     path="/signup"
                     component={(props) => <SignUp {...props} />}
-                  />
-                  <Route
+                  />}
+                  {!cookies.auth_token && <Route
                     exact
                     path="/signin">
                     <SignIn setToken={setToken} />
 
-                    </Route>
+                    </Route>}
                 </Switch>
               </div>
             </Col>
