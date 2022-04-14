@@ -1,6 +1,5 @@
 const asyncify = require("express-asyncify");
-const jwt = require('jsonwebtoken')
-
+const jwt = require("jsonwebtoken");
 
 let mongoose = require("mongoose"),
   express = require("express"),
@@ -8,12 +7,11 @@ let mongoose = require("mongoose"),
 
 let postSchema = require("../Models/Post");
 
-
 function authenticateUser(req, res, next) {
   console.log("this is req: " + req);
   const authHeader = req.headers["authorization"];
   //Getting the 2nd part of the auth hearder (the token)
-  const token = authHeader && authHeader.split(' ')[1];
+  const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
     console.log("No token received");
@@ -25,24 +23,23 @@ function authenticateUser(req, res, next) {
     try {
       // verify() returns the decoded obj which includes whatever objs
       // we use to code/sign the token
-      const decoded = jwt.verify(token, process.env.TOKEN_SECRET);  
-      req.userid = decoded; 
+      const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+      req.userid = decoded;
       // in our case, we used the username to sign the token
       console.log(decoded);
       next();
     } catch (error) {
       console.log(error);
-      return res.status(401).end();  
+      return res.status(401).end();
     }
   }
 }
 
 //authenticate block
 router.use("/create-post", (req, res, next) => {
-  console.log("This is req1: " + JSON.stringify(req.headers['authorization']));
+  console.log("This is req1: " + JSON.stringify(req.headers["authorization"]));
   authenticateUser(req, res, next);
 });
-
 
 // create post
 router.route("/create-post").post((req, res, next) => {
@@ -102,12 +99,13 @@ router.route("/update-post/:id").put((req, res, next) => {
 
 //delete post
 router.route("/delete-post/:id").delete((req, res, next) => {
+  console.log("inside delete-post")
   postSchema.findByIdAndRemove(req.params.id, (error, data) => {
     if (error) {
       return next(error);
     } else {
-      res.status(200).json({
-        msg: data, // ???
+      res.status(204).json({
+        msg: data // ???
       });
     }
   });

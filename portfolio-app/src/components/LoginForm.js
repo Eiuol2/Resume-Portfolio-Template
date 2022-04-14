@@ -1,46 +1,45 @@
-import React, { useState } from "react"
-import axios from "axios"
-import { useHistory } from "react-router-dom"
+import React, { useState } from "react";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 function LoginForm(props) {
   const [user, setUser] = useState({
     username: "",
     pwd: "",
-  })
+  });
 
-  const history = useHistory()
+  const history = useHistory();
 
-  const [message, setMsg] = useState("")
+  const [message, setMsg] = useState("");
 
   function submitForm() {
     makeLoginCall(user).then((response) => {
-
       if (response && response.status === 200) {
-
-
-        const token = response.data
-        setUser({ username: "", pwd: "" })
-        setMsg("")
-        props.setToken(token)
+        const token = response.data;
+        setUser({ username: "", pwd: "" });
+        setMsg("");
+        props.setToken(token);
         //once logged in, go to home or the posts list
-        history.push("/posts-list")
+        history.push("/posts-list");
       } else {
-
-        setMsg("Invalid login credentials!")
+        setMsg("Invalid login credentials!");
       }
-    })
+    });
   }
 
   async function makeLoginCall(user) {
     try {
-      const loginObject = {"username" : user.username, "pwd" : user.pwd}
-      const response = await axios.post("http://localhost:5016/users/login", loginObject)
+      const loginObject = { username: user.username, pwd: user.pwd };
+      const response = await axios.post(
+        "http://localhost:5016/users/login",
+        loginObject
+      );
       props.setToken(response.data);
-      console.log("This is the login response token: " + response.data)
-      return response
+      console.log("This is the login response token: " + response.data);
+      return response;
     } catch (error) {
-      console.log(error)
-      return false
+      console.log(error);
+      return false;
     }
   }
 
@@ -65,7 +64,7 @@ function LoginForm(props) {
       <input type="button" value="Submit" onClick={submitForm} />
       <i> {message} </i>
     </form>
-  )
+  );
 }
 
-export default LoginForm
+export default LoginForm;

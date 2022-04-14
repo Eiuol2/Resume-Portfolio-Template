@@ -1,32 +1,32 @@
-import React, { useState, useEffect } from "react"
-import axios from "axios"
-import Home from "./Home"
-import Projects from "./Projects"
-import Resume from "./components/Resume"
-import Profile from "./Profile"
-import Navigation from "./Navigation"
-import "bootstrap/dist/css/bootstrap.min.css"
-import FileUpload from "./fileupload"
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Home from "./Home";
+import Projects from "./Projects";
+import Resume from "./components/Resume";
+import Profile from "./Profile";
+import Navigation from "./Navigation";
+import "bootstrap/dist/css/bootstrap.min.css";
+import FileUpload from "./fileupload";
 
-import "./styling/MyApp.css"
-import { Container, Row, Col, Nav, Navbar } from "react-bootstrap"
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom"
-import CreatePost2 from "./components/CreatePost2"
-import EditPost from "./components/EditPost"
-import PostsList from "./components/PostsList"
-import SignUp from "./components/SignUp"
-import SignIn from "./components/SignIn"
-import { useCookies } from "react-cookie"
+import "./styling/MyApp.css";
+import { Container, Row, Col, Nav, Navbar } from "react-bootstrap";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import CreatePost2 from "./components/CreatePost2";
+import EditPost from "./components/EditPost";
+import PostsList from "./components/PostsList";
+import SignUp from "./components/SignUp";
+import SignIn from "./components/SignIn";
+import { useCookies } from "react-cookie";
 
 function MyApp() {
-  const [cookies, setCookie] = useCookies(['auth_token']);
+  const [cookies, setCookie] = useCookies(["auth_token"]);
 
   function setToken(token) {
-    setCookie("auth_token", token, { maxAge: 1800, path: "/" })
+    setCookie("auth_token", token, { maxAge: 1800, path: "/" });
     console.log("This is our current token: " + token);
     console.log("This is the cookie after being set: " + cookies.auth_token);
   }
-  
+
   return (
     <div className="App">
       <Router>
@@ -60,7 +60,7 @@ function MyApp() {
                   </Link>
                 </Nav>
                 <Nav>
-                  <Link to={"/signin"} className="nav-link" >
+                  <Link to={"/signin"} className="nav-link">
                     Sign In
                   </Link>
                 </Nav>
@@ -73,15 +73,11 @@ function MyApp() {
             <Col md={12}>
               <div className="wrapper">
                 <Switch>
-                  <Route
-                    exact
-                    path="/">
-                      <CreatePost2 cookies={cookies} />
+                  <Route exact path="/">
+                    <CreatePost2 cookies={cookies} />
                   </Route>
-                  <Route
-                    exact
-                    path="/create-post">
-                      <CreatePost2 cookies={cookies} />
+                  <Route exact path="/create-post">
+                    <CreatePost2 cookies={cookies} />
                   </Route>
                   <Route
                     exact
@@ -103,12 +99,9 @@ function MyApp() {
                     path="/signup"
                     component={(props) => <SignUp {...props} />}
                   />
-                  <Route
-                    exact
-                    path="/signin">
+                  <Route exact path="/signin">
                     <SignIn setToken={setToken} />
-
-                    </Route>
+                  </Route>
                 </Switch>
               </div>
             </Col>
@@ -116,7 +109,7 @@ function MyApp() {
         </Container>
       </Router>
     </div>
-  )
+  );
 }
 
-export default MyApp
+export default MyApp;

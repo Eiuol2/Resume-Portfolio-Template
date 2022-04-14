@@ -1,56 +1,51 @@
-import axios from "axios"
-import React, { Component } from "react"
-import { Form, Button } from "react-bootstrap"
-import { useCookies } from 'react-cookie'
+import axios from "axios";
+import React, { Component } from "react";
+import { Form, Button } from "react-bootstrap";
+import { useCookies } from "react-cookie";
 
-const [cookies, setCookie] = useCookies(['auth_token']);
-
-
+const [cookies, setCookie] = useCookies(["auth_token"]);
 
 class CreatePost extends Component {
-  
   constructor(props) {
-    super(props)
+    super(props);
 
-    this.onChangePostTitle = this.onChangePostTitle.bind(this)
-    this.onChangePostDescription = this.onChangePostDescription.bind(this)
-    this.onChangeContent = this.onChangeContent.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
+    this.onChangePostTitle = this.onChangePostTitle.bind(this);
+    this.onChangePostDescription = this.onChangePostDescription.bind(this);
+    this.onChangeContent = this.onChangeContent.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
       title: "",
       description: "",
       content: "",
-    }
+    };
   }
-
 
   onChangePostTitle(e) {
-    this.setState({ title: e.target.value })
+    this.setState({ title: e.target.value });
   }
   onChangePostDescription(e) {
-    this.setState({ description: e.target.value })
+    this.setState({ description: e.target.value });
   }
   onChangeContent(e) {
-    this.setState({ content: e.target.value })
+    this.setState({ content: e.target.value });
   }
 
-  
-
   onSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
     const postObject = {
       title: this.state.title,
       description: this.state.description,
       content: this.state.content,
-    } 
-    const config = { //added 
+    };
+    const config = {
+      //added
       headers: { Authorization: `Bearer ${cookies.auth_token}` },
-    }
+    };
     axios
       .post("http://localhost:5016/posts/create-post", postObject, config)
-      .then((res) => console.log(res.data))
-    this.setState({ title: "", description: "", content: "" })
+      .then((res) => console.log(res.data));
+    this.setState({ title: "", description: "", content: "" });
   }
 
   render() {
@@ -94,8 +89,8 @@ class CreatePost extends Component {
           </Button>
         </Form>
       </div>
-    )
+    );
   }
 }
 
-export default CreatePost
+export default CreatePost;

@@ -1,47 +1,50 @@
-import React, { useState } from "react"
-import axios from "axios"
-import { useHistory } from "react-router-dom"
+import React, { useState } from "react";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 function SignupForm(props) {
   const [user, setUser] = useState({
     username: "",
     pwd: "",
-  })
+  });
 
-  const history = useHistory()
+  const history = useHistory();
 
-  const [message, setMsg] = useState("")
+  const [message, setMsg] = useState("");
 
   function submitForm() {
     makeSignupCall(user).then((response) => {
       console.log("this is response: " + response.status);
       if (response && response.status === 201) {
-        const token = response.data
-        setUser({ username: "", pwd: "" })
-        setMsg("")
-        props.setToken(token)
+        const token = response.data;
+        setUser({ username: "", pwd: "" });
+        setMsg("");
+        props.setToken(token);
         // once sign up, then go to home page
-        history.push("/")
+        history.push("/");
       } else {
-        console.log(response)
-        setMsg("Invalid signup credentials, username already taken!")
+        console.log(response);
+        setMsg("Invalid signup credentials, username already taken!");
       }
-    })
+    });
   }
 
   async function makeSignupCall(user) {
     try {
       const signupObject = {
         username: user.username,
-        pwd: user.pwd
-      }
-      const response = await axios.post("http://localhost:5016/users/signup", signupObject)
-      props.setToken(response.data)
+        pwd: user.pwd,
+      };
+      const response = await axios.post(
+        "http://localhost:5016/users/signup",
+        signupObject
+      );
+      props.setToken(response.data);
       console.log("This is backend response: " + response.data);
-      return response
+      return response;
     } catch (error) {
-      console.log(error)
-      return false
+      console.log(error);
+      return false;
     }
   }
 
@@ -66,7 +69,7 @@ function SignupForm(props) {
       <input type="button" value="Submit" onClick={submitForm} />
       <i> {message} </i>
     </form>
-  )
+  );
 }
 
-export default SignupForm
+export default SignupForm;

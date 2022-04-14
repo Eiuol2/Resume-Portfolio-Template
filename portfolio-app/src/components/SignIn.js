@@ -1,11 +1,9 @@
-import React, { useEffect } from "react"
-import { useCookies } from "react-cookie"
-import axios from "axios"
-import LoginForm from "./LoginForm"
+import React, { useEffect } from "react";
+import { useCookies } from "react-cookie";
+import axios from "axios";
+import LoginForm from "./LoginForm";
 
 function SignIn(props) {
-
-
   // useEffect(() => {
   //   fetchAll().then((result) => {
   //     if (result) {
@@ -31,21 +29,21 @@ function SignIn(props) {
 
   async function makePostCall(person) {
     try {
-      const response = await axios.post("http://localhost:5016/users", person)
-      return response
+      const response = await axios.post("http://localhost:5016/users", person);
+      return response;
     } catch (error) {
-      console.log(error)
-      return false
+      console.log(error);
+      return false;
     }
   }
 
   async function makeDeleteCall(id) {
     try {
-      const response = await axios.delete("http://localhost:5016/users/" + id)
-      return response
+      const response = await axios.delete("http://localhost:5016/users/" + id);
+      return response;
     } catch (error) {
-      console.log(error)
-      return false
+      console.log(error);
+      return false;
     }
   }
 
@@ -54,7 +52,7 @@ function SignIn(props) {
       <p>React Sign in page!</p>
       <LoginForm setToken={props.setToken} />
     </div>
-  )
+  );
 }
 
-export default SignIn
+export default SignIn;

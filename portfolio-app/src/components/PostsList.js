@@ -1,14 +1,18 @@
-import React, { Component } from "react"
-import axios from "axios"
-import { Card, Button } from "react-bootstrap"
-import "../styling/box.css"
+import React, { Component } from "react";
+import axios from "axios";
+import { Card, Button } from "react-bootstrap";
+import "../styling/box.css";
+
+
+
+
 
 class PostsList extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       posts: [],
-    }
+    };
   }
   componentDidMount() {
     axios
@@ -16,11 +20,26 @@ class PostsList extends Component {
       .then((res) => {
         this.setState({
           posts: res.data,
-        })
+        });
       })
       .catch((error) => {
-        console.log(error)
-      })
+        console.log(error);
+      });
+  }
+
+  
+  async delFunc(index) {
+      console.log("inside delFunc")
+      const post = this.state.posts[index];
+      const response = await axios.delete("http://localhost:5016/posts/delete-post/" + post._id);
+      if (response && response.status == 204) {
+        console.log("in response");
+        const updated = this.state.posts.filter((p, i) => {
+          return i !== index;
+        })
+        this.setState({posts:updated});
+
+      }
   }
 
   render() {
@@ -32,16 +51,17 @@ class PostsList extends Component {
             <Card.Title>{res.title}</Card.Title>
             <Card.Text>{res.description}</Card.Text>
           </Card.Body>
+          <Button onClick={ () => this.delFunc(index)}> Delete </Button>
         </Card>
-      )
-    }
+      );
+    };
     return (
       <>
         <Button>Add New Project</Button>
         <div className="grid">{this.state.posts.map(renderCard)}</div>
       </>
-    )
+    );
   }
 }
 
-export default PostsList
+export default PostsList;

@@ -1,5 +1,5 @@
-import React from "react"
-import FileUpload from "../fileupload"
+import React from "react";
+import FileUpload from "../fileupload";
 
 function Resume() {
   return (
@@ -12,7 +12,7 @@ function Resume() {
         <FileUpload />
       </div>
     </div>
-  )
+  );
 }
 
-export default Resume
+export default Resume;
