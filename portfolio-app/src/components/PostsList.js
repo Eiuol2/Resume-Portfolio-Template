@@ -15,8 +15,11 @@ class PostsList extends Component {
     };
   }
   componentDidMount() {
+    const config = {
+      headers: { Authorization: `Bearer ${this.props.cookies.auth_token}` },
+    }
     axios
-      .get("http://localhost:5016/posts/")
+      .get("http://localhost:5016/posts/", config)
       .then((res) => {
         this.setState({
           posts: res.data,

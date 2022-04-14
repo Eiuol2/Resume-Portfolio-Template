@@ -8,7 +8,6 @@ let mongoose = require("mongoose"),
 let postSchema = require("../Models/Post");
 
 function authenticateUser(req, res, next) {
-  console.log("this is req: " + req);
   const authHeader = req.headers["authorization"];
   //Getting the 2nd part of the auth hearder (the token)
   const token = authHeader && authHeader.split(" ")[1];
@@ -26,7 +25,6 @@ function authenticateUser(req, res, next) {
       const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
       req.userid = decoded;
       // in our case, we used the username to sign the token
-      console.log(decoded);
       next();
     } catch (error) {
       console.log(error);
@@ -37,7 +35,6 @@ function authenticateUser(req, res, next) {
 
 //authenticate block
 router.use("/create-post", (req, res, next) => {
-  console.log("This is req1: " + JSON.stringify(req.headers["authorization"]));
   authenticateUser(req, res, next);
 });
 
@@ -45,20 +42,25 @@ router.use("/create-post", (req, res, next) => {
 router.route("/create-post").post((req, res, next) => {
   const object = req.body;
   object.userid = req.userid;
-  console.log("This is userid: " + object.userid);
   postSchema.create(object, (error, data) => {
     if (error) {
       return next(error);
     } else {
-      console.log(data);
       res.json(data);
     }
   });
 });
 
+//authenticate block
+router.use("/", (req, res, next) => {
+  authenticateUser(req, res, next);
+});
+
 //read posts
-router.route("/").get((req, res) => {
-  postSchema.find((error, data) => {
+router.route("/").get(async (req, res) => {
+  const object = req.body;
+  object.userid = req.userid._id
+  postSchema.find({ userid: object.userid }, (error, data) => {
     if (error) {
       return next(error);
     } else {
