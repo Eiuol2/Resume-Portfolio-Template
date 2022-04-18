@@ -1,3 +1,5 @@
+const asyncify = require("express-asyncify");
+
 let mongoose = require("mongoose"),
   express = require("express"),
   router = asyncify(express.Router());
@@ -22,4 +24,4 @@ router.route("/createprofile").post(async (req, res) => {
     })
   })
 
-  modules.export = router
+  module.exports = router;
