@@ -21,7 +21,8 @@ function SignupForm(props) {
         setMsg("");
         props.setToken(token);
         // once sign up, then go to home page
-        history.push("/");
+        history.push("/createprofile");
+        console.log("THis is after creating profile")
       } else {
         console.log(response);
         setMsg("Invalid signup credentials, username already taken!");

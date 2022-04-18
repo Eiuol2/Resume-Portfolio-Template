@@ -20,7 +20,7 @@ function LoginForm(props) {
         setMsg("");
         props.setToken(token);
         //once logged in, go to home or the posts list
-        history.push("/posts-list");
+        history.push("/");
       } else {
         setMsg("Invalid login credentials!");
       }

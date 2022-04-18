@@ -17,6 +17,8 @@ import PostsList from "./components/PostsList";
 import SignUp from "./components/SignUp";
 import SignIn from "./components/SignIn";
 import { useCookies } from "react-cookie";
+import Intropage from "./components/IntroPage"
+import CreateProfile from "./components/CreateProfile";
 
 function MyApp() {
   const [cookies, setCookie, removeCookie] = useCookies(['auth_token']);
@@ -44,7 +46,7 @@ function MyApp() {
           <Navbar bg="dark" variant="dark">
             <Container>
               <Navbar.Brand>
-                <Link to={"/create-post"} className="nav-link">
+                <Link to={"/"} className="nav-link">
                   Resumix
                 </Link>
               </Navbar.Brand>
@@ -86,15 +88,21 @@ function MyApp() {
             <Col md={12}>
               <div className="wrapper">
                 <Switch>
-                {cookies.auth_token && <Route
+                {!cookies.auth_token && <Route
                     exact
                     path="/">
-                      <CreatePost2 cookies={cookies} />
+                      <Intropage />
                   </Route>}
+                  {cookies.auth_token && <Route exact path="/">
+                    <h1>This is the profile page</h1>
+                    </Route>}
                   {cookies.auth_token &&  <Route
                     exact
                     path="/create-post">
                       <CreatePost2 cookies={cookies} />
+                  </Route>}
+                  {cookies.auth_token && <Route exact path="/createprofile">
+                    <CreateProfile />
                   </Route>}
                   {cookies.auth_token && <Route
                     exact
@@ -122,6 +130,9 @@ function MyApp() {
                     <SignIn setToken={setToken} />
 
                     </Route>}
+                    {/* {!cookies.auth_token &&<Route exact path="*">
+                        <Intropage />
+                    </Route>} */}
                 </Switch>
               </div>
             </Col>
