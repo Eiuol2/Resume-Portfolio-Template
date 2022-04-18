@@ -10,7 +10,7 @@ import FileUpload from "./fileupload";
 
 import "./styling/MyApp.css";
 import { Container, Row, Col, Nav, Navbar } from "react-bootstrap";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, useHistory, BrowserRouter } from "react-router-dom";
 import CreatePost2 from "./components/CreatePost2";
 import EditPost from "./components/EditPost";
 import PostsList from "./components/PostsList";
@@ -19,6 +19,7 @@ import SignIn from "./components/SignIn";
 import { useCookies } from "react-cookie";
 import Intropage from "./components/IntroPage"
 import CreateProfile from "./components/CreateProfile";
+
 
 function MyApp() {
   const [cookies, setCookie, removeCookie] = useCookies(['auth_token']);
@@ -51,11 +52,7 @@ function MyApp() {
                 </Link>
               </Navbar.Brand>
               <Nav className="justify-content-end">
-              {cookies.auth_token && <Nav>
-                  <Link to={"/create-post"} className="nav-link">
-                    Create Post
-                  </Link>
-                </Nav>}
+
                 {cookies.auth_token && <Nav>
                   <Link to={"/posts-list"} className="nav-link">
                     Posts List
@@ -84,7 +81,7 @@ function MyApp() {
           </Navbar>
         </header>
         <Container>
-          <Row>
+          <Row> 
             <Col md={12}>
               <div className="wrapper">
                 <Switch>
