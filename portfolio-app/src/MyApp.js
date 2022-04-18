@@ -74,7 +74,7 @@ function MyApp() {
                   </Link>
                 </Nav>} <Nav>
                   <button onClick={logout}>Logout</button>
-                </Nav>}
+                </Nav>
               </Nav>
             </Container>
           </Navbar>

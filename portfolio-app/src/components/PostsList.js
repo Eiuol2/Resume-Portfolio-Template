@@ -30,11 +30,15 @@ class PostsList extends Component {
       });
   }
 
+
   
   async delFunc(index) {
       console.log("inside delFunc")
       const post = this.state.posts[index];
-      const response = await axios.delete("http://localhost:5016/posts/delete-post/" + post._id);
+        const config = {
+          headers: { Authorization: `Bearer ${this.props.cookies.auth_token}` },
+        }
+      const response = await axios.delete("http://localhost:5016/posts/delete-post/" + post._id, config);
       if (response && response.status == 204) {
         console.log("in response");
         const updated = this.state.posts.filter((p, i) => {

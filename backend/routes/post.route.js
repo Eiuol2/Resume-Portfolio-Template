@@ -13,6 +13,7 @@ function authenticateUser(req, res, next) {
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
+   // console.log(req);
     console.log("No token received");
     return res.status(401).end();
   } else {
@@ -97,6 +98,12 @@ router.route("/update-post/:id").put((req, res, next) => {
       }
     }
   );
+});
+
+//authenticate delete
+router.use("/delete-post/:id", (req, res, next) => {
+  console.log("insilde autheticaTE")
+  authenticateUser(req, res, next);
 });
 
 //delete post
