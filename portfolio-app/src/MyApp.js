@@ -20,6 +20,7 @@ import { useCookies } from "react-cookie";
 
 function MyApp() {
   const [cookies, setCookie, removeCookie] = useCookies(['auth_token']);
+  const [show, setShow] = useState(false);
 
   function setToken(token) {
     setCookie("auth_token", token, { maxAge: 1800, path: "/" });
@@ -72,9 +73,10 @@ function MyApp() {
                   <Link to={"/signin"} className="nav-link" >
                     Sign In
                   </Link>
-                </Nav>} <Nav>
+                </Nav>}
+                {cookies.auth_token && <Nav>
                   <button onClick={logout}>Logout</button>
-                </Nav>
+                </Nav>}
               </Nav>
             </Container>
           </Navbar>
