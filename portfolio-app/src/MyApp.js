@@ -79,7 +79,7 @@ function MyApp() {
           </Navbar>
         </header>
         <Container>
-          <Row>
+          <Row> 
             <Col md={12}>
               <div className="wrapper">
                 <Switch>
