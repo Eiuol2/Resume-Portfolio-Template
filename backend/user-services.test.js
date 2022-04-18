@@ -135,7 +135,6 @@ test("Adding Text - successful path", async () => {
 //   expect(deleteResult).toBeNull();
 // });
 
-
 // test("Adding user -- failure path with already taken id", async () => {
 //   const dummyUser = {
 //     name: "Harry Potter",

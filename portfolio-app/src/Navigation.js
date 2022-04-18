@@ -1,5 +1,5 @@
-import { Navbar, Nav, Container } from "react-bootstrap"
-import NavbarToggle from "react-bootstrap/esm/NavbarToggle"
+import { Navbar, Nav, Container } from "react-bootstrap";
+import NavbarToggle from "react-bootstrap/esm/NavbarToggle";
 const Navigation = () => {
   return (
     <>
@@ -12,12 +12,14 @@ const Navigation = () => {
               <Nav.Link href="/resume">Resume</Nav.Link>
               <Nav.Link href="/projects">Projects</Nav.Link>
               <Nav.Link href="/profile">Profile</Nav.Link>
+              <Nav.Link href="/signup">Sign up</Nav.Link>
+              <Nav.Link href="/signin">Sign in</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
     </>
-  )
-}
+  );
+};
 
-export default Navigation
+export default Navigation;
