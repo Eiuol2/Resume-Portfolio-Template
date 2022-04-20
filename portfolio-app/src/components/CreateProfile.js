@@ -3,7 +3,7 @@ import { useState } from 'react'
 import axios from 'axios';
 import { useHistory } from "react-router-dom";
 
-function CreateProfile() {
+function CreateProfile(props) {
 
     const history = useHistory();
 
@@ -12,14 +12,15 @@ function CreateProfile() {
         year: "",
         major: "",
         desiredRole: "",
-        bio: ""
+        bio: "",
+        username: ""
       });
 
       function submitForm() {
         makeProfileCall(user).then((response) => {
           console.log("this is response: " + response.status);
           if (response && response.status === 201) {
-            setUser({ name: "", year: "", major: "", desiredRole: "", bio: "" });
+            setUser({ name: "", year: "", major: "", desiredRole: "", bio: "", username: "" });
             // once sign up, then go to home page
             history.push("/");
           } else {
@@ -32,16 +33,17 @@ function CreateProfile() {
         try {
             const profileObject = {
               name: user.name,
-              year: user.name,
+              year: user.year,
               major: user.major,
               desiredRole: user.desiredRole,
-              bio: user.bio
+              bio: user.bio,
+              username: user.username
             };
             const response = await axios.post(
               "http://localhost:5016/profile/createprofile",
               profileObject
             );
-            console.log("This is backend response: " + response.data);
+            console.log("This is backend response: " + JSON.stringify(response.data));
             return response;
           } catch (error) {
             console.log(error);
@@ -68,6 +70,14 @@ function CreateProfile() {
          Please don't exit this page without filling out the form otherwise your account will be corrupted!
       </p>
             <br />
+          <label htmlFor="username">Username</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            value={user.username}
+            onChange={(event) => setUser({ ...user, username: event.target.value })}
+          />
           <label htmlFor="name">Name</label>
           <input
             type="text"

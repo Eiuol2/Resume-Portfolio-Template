@@ -19,7 +19,7 @@ import SignIn from "./components/SignIn";
 import { useCookies } from "react-cookie";
 import Intropage from "./components/IntroPage"
 import CreateProfile from "./components/CreateProfile";
-
+import ProfilePage from "./components/ProfilePage";
 
 function MyApp() {
   const [cookies, setCookie, removeCookie] = useCookies(['auth_token']);
@@ -92,6 +92,7 @@ function MyApp() {
                   </Route>}
                   {cookies.auth_token && <Route exact path="/">
                     <h1>This is the profile page</h1>
+                    <ProfilePage cookies={cookies} />
                     </Route>}
                   {cookies.auth_token &&  <Route
                     exact
