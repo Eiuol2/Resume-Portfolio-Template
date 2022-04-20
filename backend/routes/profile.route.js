@@ -1,4 +1,5 @@
 const asyncify = require("express-asyncify");
+const jwt = require("jsonwebtoken");
 
 let mongoose = require("mongoose"),
   express = require("express"),
@@ -8,12 +9,13 @@ let profileSchema = require("../Models/Profile");
 
 
 router.route("/createprofile").post(async (req, res) => {
-    const dummy = {name: "", year: "", major: "", desiredRole: "", bio: ""}
+    const dummy = {name: "", year: "", major: "", desiredRole: "", bio: "", username: ""}
     dummy.name = req.body.name
     dummy.year = req.body.year
     dummy.major = req.body.major
     dummy.desiredRole = req.body.desiredRole
     dummy.bio = req.body.bio
+    dummy.username = req.body.username
     profileSchema.create(dummy, (error, data) => {
         if (error) {
             return next(error);
@@ -23,5 +25,51 @@ router.route("/createprofile").post(async (req, res) => {
           }
     })
   })
+
+  function authenticateUser(req, res, next) {
+    const authHeader = req.headers["authorization"];
+    //Getting the 2nd part of the auth hearder (the token)
+    const token = authHeader && authHeader.split(" ")[1];
+  
+    if (!token) {
+     // console.log(req);
+      console.log("No token received");
+      return res.status(401).end();
+    } else {
+      // If a callback is supplied, verify() runs async
+      // If a callback isn't supplied, verify() runs synchronously
+      // verify() throws an error if the token is invalid
+      try {
+        // verify() returns the decoded obj which includes whatever objs
+        // we use to code/sign the token
+        const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
+        req.userid = decoded;
+        // in our case, we used the username to sign the token
+        next();
+      } catch (error) {
+        console.log(error);
+        return res.status(401).end();
+      }
+    }
+  }
+
+  router.use("/getprofile", (req, res, next) => {
+    authenticateUser(req, res, next);
+  });
+
+  router.route("/getprofile").get(async (req, res) => {
+    console.log("This is req: " + JSON.stringify(req.body));
+    const object = req.body;
+    object.username = req.username
+    console.log("This is user's username: " + JSON.stringify(object))
+    profileSchema.find({ username: object.username }, (error, data) => {
+      if (error) {
+        return next(error);
+      } else {
+        console.log("This is what we got for profile fetching: " + data); //wrong
+        res.json(data);
+      }
+    });
+  });
 
   module.exports = router;

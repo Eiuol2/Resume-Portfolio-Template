@@ -7,7 +7,7 @@ let profileSchema = new Schema(
       required: true,
     },
     year: {
-      type: String,
+      type: Number,
       required: true,
     },
     major: {
@@ -22,6 +22,11 @@ let profileSchema = new Schema(
         type: String,
         required: true,
       },
+      username: {
+        type: String,
+        required: true,
+        unique: true
+      }
   },
   {
     collection: "profiles",
