@@ -51,8 +51,9 @@ router.route("/signup").post(async (req, res, next) => {
         if (error) {
           return next(error);
         } else {
-          console.log(data);
-          const token = generateAccessToken(data._id);
+
+          console.log("This is before token: " + data);
+          const token = generateAccessToken(data.username);
           res.status(201).send(token);
         }
       });

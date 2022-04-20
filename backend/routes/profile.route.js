@@ -43,7 +43,8 @@ router.route("/createprofile").post(async (req, res) => {
         // verify() returns the decoded obj which includes whatever objs
         // we use to code/sign the token
         const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
-        req.userid = decoded;
+        req.username = decoded._id;
+        console.log("This is decoded: " + JSON.stringify(decoded))
         // in our case, we used the username to sign the token
         next();
       } catch (error) {
@@ -58,10 +59,9 @@ router.route("/createprofile").post(async (req, res) => {
   });
 
   router.route("/getprofile").get(async (req, res) => {
-    console.log("This is req: " + JSON.stringify(req.body));
     const object = req.body;
     object.username = req.username
-    console.log("This is user's username: " + JSON.stringify(object))
+    console.log("This is req username: " + object.username)
     profileSchema.find({ username: object.username }, (error, data) => {
       if (error) {
         return next(error);
