@@ -13,7 +13,7 @@ function authenticateUser(req, res, next) {
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
-   // console.log(req);
+    // console.log(req);
     console.log("No token received");
     return res.status(401).end();
   } else {
@@ -60,7 +60,7 @@ router.use("/", (req, res, next) => {
 //read posts
 router.route("/").get(async (req, res) => {
   const object = req.body;
-  object.userid = req.userid._id
+  object.userid = req.userid._id;
   postSchema.find({ userid: object.userid }, (error, data) => {
     if (error) {
       return next(error);
@@ -102,19 +102,19 @@ router.route("/update-post/:id").put((req, res, next) => {
 
 //authenticate delete
 router.use("/delete-post/:id", (req, res, next) => {
-  console.log("insilde autheticaTE")
+  console.log("insilde autheticaTE");
   authenticateUser(req, res, next);
 });
 
 //delete post
 router.route("/delete-post/:id").delete((req, res, next) => {
-  console.log("inside delete-post")
+  console.log("inside delete-post");
   postSchema.findByIdAndRemove(req.params.id, (error, data) => {
     if (error) {
       return next(error);
     } else {
       res.status(204).json({
-        msg: data // ???
+        msg: data, // ???
       });
     }
   });

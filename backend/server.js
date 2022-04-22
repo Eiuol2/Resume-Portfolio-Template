@@ -18,7 +18,7 @@ const resumeRoute = require("../backend/routes/resume.route");
 
 const userRoute = require("../backend/routes/user.route");
 
-const profileRoute = require("../backend/routes/profile.route")
+const profileRoute = require("../backend/routes/profile.route");
 
 // Connecting mongoDB Database
 mongoose.Promise = global.Promise;
@@ -45,7 +45,7 @@ app.use(cors());
 app.use("/posts", postRoute);
 app.use("/resume", resumeRoute);
 app.use("/users", userRoute);
-app.use("/profile", profileRoute)
+app.use("/profile", profileRoute);
 
 //---------------------------------------------JWT RELATED---------------------------------------------------------------
 

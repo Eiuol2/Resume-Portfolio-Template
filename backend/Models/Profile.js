@@ -11,22 +11,22 @@ let profileSchema = new Schema(
       required: true,
     },
     major: {
-        type: String,
-        required: true,
-      },
-      desiredRole: {
-        type: String,
-        required: true,
-      },
-      bio: {
-        type: String,
-        required: true,
-      },
-      username: {
-        type: String,
-        required: true,
-        unique: true
-      }
+      type: String,
+      required: true,
+    },
+    desiredRole: {
+      type: String,
+      required: true,
+    },
+    bio: {
+      type: String,
+      required: true,
+    },
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+    },
   },
   {
     collection: "profiles",
