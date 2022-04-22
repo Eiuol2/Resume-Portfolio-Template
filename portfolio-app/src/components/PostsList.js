@@ -2,23 +2,20 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Card, Button } from "react-bootstrap";
 import "../styling/box.css";
-import { useHistory } from "react-router-dom"
+import { useHistory } from "react-router-dom";
 
 function PostsList(props) {
-
   let history = useHistory();
   const [posts, setPost] = useState([]);
 
   useEffect(() => {
     const config = {
       headers: { Authorization: `Bearer ${props.cookies.auth_token}` },
-    }
+    };
     axios
       .get("http://localhost:5016/posts/", config)
       .then((res) => {
-        setPost(
-          res.data
-        );
+        setPost(res.data);
       })
       .catch((error) => {
         console.log(error);
@@ -26,42 +23,45 @@ function PostsList(props) {
   });
 
   async function delFunc(index) {
-    console.log("inside delFunc")
+    console.log("inside delFunc");
     const post = posts[index];
-      const config = {
-        headers: { Authorization: `Bearer ${props.cookies.auth_token}` },
-      }
-    const response = await axios.delete("http://localhost:5016/posts/delete-post/" + post._id, config);
+    const config = {
+      headers: { Authorization: `Bearer ${props.cookies.auth_token}` },
+    };
+    const response = await axios.delete(
+      "http://localhost:5016/posts/delete-post/" + post._id,
+      config
+    );
     if (response && response.status == 204) {
       console.log("in response");
       const updated = posts.filter((p, i) => {
         return i !== index;
-      })
+      });
       setPost(updated);
-
     }
-}
+  }
 
-const renderCard = (res, index) => {
+  const renderCard = (res, index) => {
+    return (
+      <Card style={{ width: "18rem" }} key={index} className="box">
+        <Card.Img variant="top" src="holder.js/100px180" src={res.content} />
+        <Card.Body>
+          <Card.Title>{res.title}</Card.Title>
+          <Card.Text>{res.description}</Card.Text>
+        </Card.Body>
+        <Button onClick={() => delFunc(index)}> Delete </Button>
+      </Card>
+    );
+  };
+
   return (
-    <Card style={{ width: "18rem" }} key={index} className="box">
-      <Card.Img variant="top" src="holder.js/100px180" src={res.content} />
-      <Card.Body>
-        <Card.Title>{res.title}</Card.Title>
-        <Card.Text>{res.description}</Card.Text>
-      </Card.Body>
-      <Button onClick={ () => delFunc(index)}> Delete </Button>
-    </Card>
+    <>
+      <Button onClick={() => history.push("/create-post")}>
+        Add New Project
+      </Button>
+      <div className="grid">{posts.map(renderCard)}</div>
+    </>
   );
-};
-
-return (
-  <>
-    <Button onClick = {() => history.push("/create-post")} >Add New Project</Button>
-    <div className="grid">{posts.map(renderCard)}</div>
-  </>
-);
-
 }
 /*
 class PostsList extends Component {
