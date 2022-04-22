@@ -5,18 +5,17 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ jwt ]
+    branches: [jwt]
   pull_request:
-    branches: [ jwt ]
+    branches: [jwt]
 
 defaults:
   run:
     working-directory: ./backend
 
 jobs:
-  build: 
-
-    runs-on: ${{ matrix.os }} 
+  build:
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
@@ -25,13 +24,19 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-        cache-dependency-path: backend/package-lock.json
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: resumixapp #Must be unique on Heroku
+          heroku_email: emmagkim@gmail.com #Must be the one you used on Heroku
+          appdir: backend
