@@ -4,7 +4,7 @@
   "description": "dummy",
   "main": "backend.js",
   "scripts": {
-    "test": "jest",
+    "test": "prettier --check . && jest",
     "dev": "nodemon server.js",
     "start": "node server.js"
   },
