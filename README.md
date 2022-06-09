@@ -7,4 +7,4 @@ Code Coverage Report:
 
 
 Product Spec:
-https://docs.google.com/document/d/1sFl_Mthd5bsZGS-gXiFi0ASYL_JtXQKf_T1Owb1oKvk/edit
+https://docs.google.com/document/d/1sFl_Mthd5bsZGS-gXiFi0ASYL_JtXQKf_T1Owb1oKvk/edit?usp=sharing
